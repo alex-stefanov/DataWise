@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DbContexts\NonReleational\" />
+    <Folder Include="DbContexts\Releational\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Repositories\NonReleational\" />
+    <Folder Include="Repositories\Releational\" />
+  </ItemGroup>
+
+</Project>
