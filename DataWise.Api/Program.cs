@@ -1,4 +1,3 @@
-
 namespace DataWise.Api
 {
     public class Program
@@ -8,9 +7,21 @@ namespace DataWise.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            // Enable CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
+
+            // Configure Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -23,10 +34,15 @@ namespace DataWise.Api
                 app.UseSwaggerUI();
             }
 
+            // Exception handling
+            app.UseExceptionHandler("/error"); // You should create an /error endpoint
+
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            // Use CORS
+            app.UseCors("AllowAll");
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

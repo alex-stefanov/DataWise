@@ -32,10 +32,24 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "http://localhost:4200",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  /*
+    "Angular Client": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\nodejs\\npm.cmd",
+      "workingDirectory": "C:\\Users\\Алекс Стефанов\\Desktop\\DataWise\\DataWise.Client",
+      "arguments": "run ng serve",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:4200",
+      "applicationUrl": "http://localhost:4200",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  */
   }
 }
