@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataWise.Api", "DataWise.Api\DataWise.Api.csproj", "{9F70FC92-5C0A-48EC-B7F7-59DE7C0EA0FA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{549A9288-CDC9-468E-A134-0A8C813B0678} = {549A9288-CDC9-468E-A134-0A8C813B0678}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataWise.Core", "DataWise.Core\DataWise.Core.csproj", "{047D4E12-DEE8-430F-98F4-5DE8021BF0CD}"
 EndProject
@@ -14,26 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataWise.Data", "DataWise.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataWise.Tests", "DataWise.Tests\DataWise.Tests.csproj", "{AD13E71F-3C95-4A15-8C0F-83459CD56D98}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DataWise.Client", "DataWise.Client\", "{549A9288-CDC9-468E-A134-0A8C813B0678}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_4200"
-		Debug.AspNetCompiler.PhysicalPath = "DataWise.Client\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_4200\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_4200"
-		Release.AspNetCompiler.PhysicalPath = "DataWise.Client\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_4200\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "51223"
-		SlnRelativePath = "DataWise.Client\"
-	EndProjectSection
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "DataWise.Web", "DataWise.Client\DataWise.Web.esproj", "{34D39F6D-2F4B-4496-A386-A4F607C337EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +35,12 @@ Global
 		{AD13E71F-3C95-4A15-8C0F-83459CD56D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD13E71F-3C95-4A15-8C0F-83459CD56D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD13E71F-3C95-4A15-8C0F-83459CD56D98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{549A9288-CDC9-468E-A134-0A8C813B0678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{549A9288-CDC9-468E-A134-0A8C813B0678}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{549A9288-CDC9-468E-A134-0A8C813B0678}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{549A9288-CDC9-468E-A134-0A8C813B0678}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
