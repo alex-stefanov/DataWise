@@ -13,7 +13,8 @@ class CNN_LSTM_Model:
 
     
     def forward(self, x):
-        x = self.conv.forward(x)
+        for i in range(self.conv_layers.count):
+            self.conv_layers[i].forward(x)
         x = self.pool.forward(x)
         x = self.flatten.forward(x)
         x = self.lstm.forward(x)

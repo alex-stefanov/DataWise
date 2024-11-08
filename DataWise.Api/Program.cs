@@ -6,7 +6,6 @@ namespace DataWise.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllers();
 
             // Enable CORS
