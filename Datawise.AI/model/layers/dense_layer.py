@@ -15,7 +15,6 @@ class DNNLayer:
         dbias = np.sum(output_error, axis=1, keepdims=True)
         dinput = np.dot(self.weights.T, output_error)
 
-        # Update weights and biases
         self.weights -= learning_rate * dweights
         self.bias -= learning_rate * dbias
 

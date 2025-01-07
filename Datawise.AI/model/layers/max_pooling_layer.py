@@ -1,20 +1,36 @@
 import numpy as np
 
 class MaxPoolingLayer:
-    def __init__(self, pool_size):
+    def __init__(self, pool_size, stride):
         self.pool_size = pool_size
+        self.stride = stride
 
     def forward(self, input_data):
-        batch_size, num_filters, height, width = input_data.shape
-        output_height = height // self.pool_size
-        output_width = width // self.pool_size
-        output = np.zeros((batch_size, num_filters, output_height, output_width))
+        self.input_data = input_data
+        self.input_height, self.input_width = input_data.shape
 
-        for i in range(batch_size):
-            for j in range(num_filters):
-                for h in range(output_height):
-                    for w in range(output_width):
-                        output[i, j, h, w] = np.max(
-                            input_data[i, j, h*self.pool_size:(h+1)*self.pool_size,
-                                       w*self.pool_size:(w+1)*self.pool_size])
-        return output
+        self.output_height = (self.input_height - self.pool_size) // self.stride + 1
+        self.output_width = (self.input_width - self.pool_size) // self.stride + 1
+
+        self.output = np.zeros((self.output_height, self.output_width))
+
+        for i in range(self.output_height):
+            for j in range(self.output_width):
+                region = self.input_data[i * self.stride:i * self.stride + self.pool_size, 
+                                         j * self.stride:j * self.stride + self.pool_size]
+                self.output[i, j] = np.max(region)
+
+        return self.output
+
+    def backward(self, output_error, learning_rate):
+        dinput = np.zeros_like(self.input_data)
+
+        for i in range(self.output_height):
+            for j in range(self.output_width):
+                region = self.input_data[i * self.stride:i * self.stride + self.pool_size,
+                                         j * self.stride:j * self.stride + self.pool_size]
+                max_value = np.max(region)
+                max_pos = np.unravel_index(np.argmax(region), region.shape)
+                dinput[i * self.stride + max_pos[0], j * self.stride + max_pos[1]] = output_error[i, j]
+
+        return dinput

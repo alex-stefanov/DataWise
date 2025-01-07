@@ -1,8 +1,12 @@
 from flask import Flask, render_template
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import io
 import base64
+
+# Use non-interactive Agg backend to avoid the error with GUI thread
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 
