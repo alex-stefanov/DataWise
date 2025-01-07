@@ -1,6 +1,5 @@
 import numpy as np
-from model import CLDNN  # Import your model
-from model.layers import Sigmoid, ReLU, LinearLayer, Conv2D, MaxPoolingLayer  # Import layers
+from network import CLDNN
 
 # Define a simple dataset (replace with real data later)
 X_train = np.random.rand(100, 40)  # 100 samples, 40 features each (for simplicity)

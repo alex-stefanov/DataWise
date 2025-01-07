@@ -1,7 +1,6 @@
-# train.py
 import numpy as np
 import matplotlib.pyplot as plt
-from model import CLDNNModel
+from network import CLDNN
 from data import generate_dummy_data, generate_labels
 
 def train_model(model, train_data, train_labels, epochs, learning_rate):
@@ -34,7 +33,7 @@ def train_model(model, train_data, train_labels, epochs, learning_rate):
     plt.show()
 
 def main():
-    model = CLDNNModel()
+    model = CLDNN()
     
     # Generate dummy data for training
     train_data = generate_dummy_data(batch_size=5, input_channels=3, height=32, width=32)

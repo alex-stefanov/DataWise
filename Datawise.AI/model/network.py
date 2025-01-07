@@ -1,9 +1,9 @@
 import numpy as np
-from model.layers.conv_layer import ConvLayer
-from model.layers.dense_layer import DNNLayer
-from model.layers.lstm_layer import LSTM
-from model.layers.max_pooling_layer import MaxPoolingLayer
-from model.layers.linear_layer import LinearLayer
+from layers.conv_layer import ConvLayer
+from layers.dense_layer import DNNLayer
+from layers.lstm_layer import LSTM
+from layers.max_pooling_layer import MaxPoolingLayer
+from layers.linear_layer import LinearLayer
 
 class CLDNN:
     def __init__(self):
