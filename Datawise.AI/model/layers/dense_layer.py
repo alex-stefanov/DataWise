@@ -1,33 +1,22 @@
 import numpy as np
 
-class DenseLayer:
+class DNNLayer:
     def __init__(self, input_size, output_size):
-        self.input_size = input_size
-        self.output_size = output_size
-        
-        # Initialize weights and biases
-        self.weights = np.random.randn(output_size, input_size)
-        self.biases = np.zeros(output_size)
+        self.weights = np.random.randn(output_size, input_size) * 0.1
+        self.bias = np.zeros((output_size, 1))
 
-    def forward(self, inputs):
-        """
-        Perform a forward pass through the dense layer.
-        :param inputs: The input data
-        :return: The output after applying the weights and biases
-        """
-        return np.dot(inputs, self.weights.T) + self.biases
+    def forward(self, input_data):
+        self.input_data = input_data
+        self.output = np.dot(self.weights, self.input_data) + self.bias
+        return self.output
 
-    def backward(self, grad_output, learning_rate):
-        """
-        Perform a backward pass through the dense layer.
-        :param grad_output: The gradient of the loss with respect to the output
-        :param learning_rate: The learning rate for updating weights and biases
-        :return: The gradient with respect to the input
-        """
-        grad_input = np.dot(grad_output, self.weights)
-        
+    def backward(self, output_error, learning_rate):
+        dweights = np.dot(output_error, self.input_data.T)
+        dbias = np.sum(output_error, axis=1, keepdims=True)
+        dinput = np.dot(self.weights.T, output_error)
+
         # Update weights and biases
-        self.weights -= learning_rate * np.dot(grad_output.T, grad_input)
-        self.biases -= learning_rate * np.sum(grad_output, axis=0)
-        
-        return grad_input
+        self.weights -= learning_rate * dweights
+        self.bias -= learning_rate * dbias
+
+        return dinput

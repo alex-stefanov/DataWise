@@ -3,28 +3,44 @@ import numpy as np
 from model.layers.conv_layer import ConvLayer
 from model.layers.dense_layer import DenseLayer
 from model.layers.lstm_layer import LSTMLayer
+from model.layers.max_pooling_layer import MaxPoolingLayer
+from model.layers.linear_layer import LinearLayer
 
-class CLDNNModel:
-    def __init__(self):
-        # Define the layers
-        self.conv1 = ConvLayer(input_channels=3, output_channels=256, kernel_size=(9, 9))
-        self.conv2 = ConvLayer(input_channels=256, output_channels=256, kernel_size=(4, 3))
-        self.lstm = LSTMLayer(input_size=256, hidden_size=832, num_layers=2)
-        self.dense1 = DenseLayer(input_size=832, output_size=1024)
-        self.dense2 = DenseLayer(input_size=1024, output_size=10)  # Assuming 10 classes
+class CLDNN:
+    def __init__(self, input_channels, input_height, input_width):
+        # CNN Layer 1
+        self.conv1 = ConvLayer(num_filters=256, filter_size=9, input_channels=input_channels)
+        self.pool1 = MaxPoolingLayer(pool_size=3)
+        
+        # CNN Layer 2
+        self.conv2 = ConvLayer(num_filters=256, filter_size=4, input_channels=256)
+        
+        # Linear Layer
+        self.linear = LinearLayer(input_dim=256*input_height*input_width, output_dim=256)
+        
+        # LSTM Layer
+        self.lstm1 = LSTMLayer(input_dim=256, hidden_dim=832)
+        self.lstm2 = LSTMLayer(input_dim=832, hidden_dim=832)
+        
+        # DNN Layer
+        self.dnn = DenseLayer(input_dim=832, output_dim=1024)
 
-    def forward(self, x):
-        x = self.conv1.forward(x)
-        x = self.conv2.forward(x)
-        x = self.lstm.forward(x)
-        x = self.dense1.forward(x)
-        x = self.dense2.forward(x)
-        return x
-
-    def backward(self, grad_output, learning_rate):
-        grad = self.dense2.backward(grad_output, learning_rate)
-        grad = self.dense1.backward(grad, learning_rate)
-        grad = self.lstm.backward(grad, learning_rate)
-        grad = self.conv2.backward(grad, learning_rate)
-        grad = self.conv1.backward(grad, learning_rate)
-        return grad
+    def forward(self, input_data):
+        # CNN forward pass
+        conv1_out = self.conv1.forward(input_data)
+        pool1_out = self.pool1.forward(conv1_out)
+        conv2_out = self.conv2.forward(pool1_out)
+        
+        # Flatten the output from CNN for the linear layer
+        flattened = conv2_out.reshape(conv2_out.shape[0], -1)
+        linear_out = self.linear.forward(flattened)
+        
+        # LSTM forward pass
+        h_prev, c_prev = np.zeros((linear_out.shape[0], 832)), np.zeros((linear_out.shape[0], 832))
+        lstm_out, _ = self.lstm1.forward(linear_out, h_prev, c_prev)
+        lstm_out, _ = self.lstm2.forward(lstm_out, h_prev, c_prev)
+        
+        # DNN forward pass
+        dnn_out = self.dnn.forward(lstm_out)
+        
+        return dnn_out

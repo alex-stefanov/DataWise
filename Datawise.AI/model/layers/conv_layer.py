@@ -1,60 +1,52 @@
 import numpy as np
 
 class ConvLayer:
-    def __init__(self, input_channels, output_channels, filter_size):
-        self.input_channels = input_channels
-        self.output_channels = output_channels
+    def __init__(self, num_filters, filter_size, stride=1, padding=0):
+        self.num_filters = num_filters
         self.filter_size = filter_size
-        
-        # Initialize filters with small random values
-        self.filters = np.random.randn(output_channels, input_channels, filter_size, filter_size)
-        self.biases = np.zeros(output_channels)
-    
-    def forward(self, inputs):
-        """
-        Perform a forward pass through the convolutional layer.
-        :param inputs: The input data with shape (batch_size, input_channels, height, width)
-        :return: The output after applying the convolution filters
-        """
-        batch_size, _, height, width = inputs.shape
-        output_height = height - self.filter_size + 1
-        output_width = width - self.filter_size + 1
-        
-        output = np.zeros((batch_size, self.output_channels, output_height, output_width))
-        
-        # Apply convolution for each filter
-        for i in range(self.output_channels):
-            for b in range(batch_size):
-                for h in range(output_height):
-                    for w in range(output_width):
-                        region = inputs[b, :, h:h+self.filter_size, w:w+self.filter_size]
-                        output[b, i, h, w] = np.sum(region * self.filters[i]) + self.biases[i]
-        
-        return output
+        self.stride = stride
+        self.padding = padding
+        self.filters = np.random.randn(num_filters, filter_size, filter_size) * 0.1
+        self.bias = np.zeros((num_filters, 1))
 
-    def backward(self, grad_output, learning_rate):
-        """
-        Perform a backward pass through the convolutional layer.
-        :param grad_output: The gradient of the loss with respect to the output
-        :param learning_rate: The learning rate for updating the filters and biases
-        :return: The gradient of the loss with respect to the input
-        """
-        batch_size, _, output_height, output_width = grad_output.shape
-        
-        grad_input = np.zeros_like(self.filters)
-        grad_filters = np.zeros_like(self.filters)
-        grad_biases = np.zeros_like(self.biases)
-        
-        for i in range(self.output_channels):
-            for b in range(batch_size):
-                for h in range(output_height):
-                    for w in range(output_width):
-                        region = grad_output[b, i, h, w]
-                        grad_filters[i] += region
-                        grad_biases[i] += grad_output[b, i, h, w]
-                        
-        # Update filters and biases using gradient descent
-        self.filters -= learning_rate * grad_filters
-        self.biases -= learning_rate * grad_biases
-        
-        return grad_input
+    def forward(self, input_data):
+        # Store input data for use in the backward pass
+        self.input_data = input_data
+        self.input_height, self.input_width = input_data.shape
+        self.output_height = (self.input_height - self.filter_size) // self.stride + 1
+        self.output_width = (self.input_width - self.filter_size) // self.stride + 1
+
+        # Initialize the output
+        self.output = np.zeros((self.num_filters, self.output_height, self.output_width))
+
+        for f in range(self.num_filters):
+            for i in range(self.output_height):
+                for j in range(self.output_width):
+                    region = self.input_data[i*self.stride:i*self.stride+self.filter_size, 
+                                            j*self.stride:j*self.stride+self.filter_size]
+                    self.output[f, i, j] = np.sum(region * self.filters[f]) + self.bias[f]
+        return self.output
+
+    def backward(self, output_error, learning_rate):
+        # Initialize gradients
+        dfilters = np.zeros_like(self.filters)
+        dbias = np.zeros_like(self.bias)
+        dinput = np.zeros_like(self.input_data)
+
+        for f in range(self.num_filters):
+            for i in range(self.output_height):
+                for j in range(self.output_width):
+                    region = self.input_data[i*self.stride:i*self.stride+self.filter_size,
+                                            j*self.stride:j*self.stride+self.filter_size]
+                    dfilters[f] += output_error[f, i, j] * region
+                    dbias[f] += output_error[f, i, j]
+
+                    # Gradient of input (for backpropagation to earlier layers)
+                    dinput[i*self.stride:i*self.stride+self.filter_size,
+                           j*self.stride:j*self.stride+self.filter_size] += output_error[f, i, j] * self.filters[f]
+
+        # Update weights and biases
+        self.filters -= learning_rate * dfilters
+        self.bias -= learning_rate * dbias
+
+        return dinput
