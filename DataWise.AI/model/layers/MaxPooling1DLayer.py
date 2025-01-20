@@ -21,15 +21,13 @@ class MaxPooling1D(BaseLayer):
         return self.output
     
     def backward(self, d_out):
-        # Ensure d_out is a numpy array
         if not isinstance(d_out, np.ndarray):
             print("Expected d_out to be a numpy array, but got:", type(d_out))
-            return None  # or raise an error, depending on your needs
+            return None
         
-        batch_size, output_len, num_filters = d_out.shape  # Confirm d_out is now an array
+        batch_size, output_len, num_filters = d_out.shape
         d_inputs = np.zeros_like(self.inputs)
 
-        # Debugging outputs for gradient shape at each layer
         print(f"Backward pass through {self.__class__.__name__}, d_out shape: {d_out.shape}")
         
         for i in range(output_len):

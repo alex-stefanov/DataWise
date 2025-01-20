@@ -24,6 +24,13 @@ class CLDNN:
         ]
         self.loss_layer = SoftmaxCrossEntropy()
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+
     def forward(self, X, y=None):
         for layer in self.layers:
             print(f"Layer: {layer.__class__.__name__}, Input shape: {X.shape}")
@@ -56,21 +63,21 @@ class CLDNN:
         print(f"Loss: {loss}")
 
     def save(self, file_path):
+        """Save the model to a file using pickle."""
         try:
-            with open(file_path, 'wb') as f:
+            with open(file_path, "wb") as f:
                 pickle.dump(self, f)
-            print("Model saved successfully!")
+            print(f"Model saved successfully to {file_path}")
         except Exception as e:
             print(f"Error saving model: {e}")
 
-
     def load(self, file_path):
+        """Load the model from a file using pickle."""
         try:
-            with open(file_path, 'rb') as f:
-                loaded_model = pickle.load(f) 
-                self.layers = loaded_model.layers  
-                self.input_shape = loaded_model.input_shape 
-                self.num_classes = loaded_model.num_classes 
-                print(f"Model loaded from {file_path}")
+            with open(file_path, "rb") as f:
+                model = pickle.load(f)
+                print(model)
+            print(f"Model loaded successfully from {file_path}")
+            self = model
         except Exception as e:
             print(f"Error loading model: {e}")

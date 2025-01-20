@@ -74,13 +74,14 @@ def main():
     num_classes = len(label_map)
     model = CLDNN(input_shape, num_classes)
 
-    model_path = "model.pkl"
+    model_path = "cldnn_model.pkl"
+    
     try:
         model.load(model_path)
     except FileNotFoundError:
         print("No saved model found. Starting fresh.")
 
-    train_model(X_train, y_train, model, epochs=10, learning_rate=0.001)
+    train_model(X_train, y_train, model, epochs=10, learning_rate=0.001, save_path=model_path)
 
     print("Evaluating on validation set...")
     evaluate(model, X_val, y_val)
