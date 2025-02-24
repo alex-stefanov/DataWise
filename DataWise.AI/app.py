@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import numpy as np
 import json
 import pickle
@@ -19,6 +20,7 @@ idx2label = {v: k for k, v in label2idx.items()}
 max_len = 42
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/predict', methods=['POST'])
 def predict():
