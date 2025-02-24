@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Loss Visualization</title>
-</head>
-<body>
-    <h1>Training Loss Visualization</h1>
-    <img src="data:image/png;base64,{{ plot_url }}" alt="Training Loss Plot">
-</body>
+<!doctype html>
+<html>
+  <head>
+    <title>Exercise Predictor</title>
+  </head>
+  <body>
+    <h1>Enter an Exercise</h1>
+    <form action="/predict" method="post">
+      <textarea name="exercise" rows="4" cols="50" placeholder="Type your exercise here..."></textarea><br>
+      <input type="submit" value="Predict Category">
+    </form>
+  </body>
 </html>

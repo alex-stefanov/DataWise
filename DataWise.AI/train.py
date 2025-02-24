@@ -1,101 +1,75 @@
-import json
 import numpy as np
-from gensim.models import Word2Vec
-from sklearn.model_selection import train_test_split
-from model.CLDNN import CLDNN
+import json
+from tqdm import trange
+from data_utils import load_data, build_vocab, prepare_dataset
+from model import TextCNN, save_model, load_model
 
-def load_data(labeled_file, unlabeled_file):
-    with open(labeled_file, 'r') as f:
-        labeled_data = json.load(f)['data']
+train_filename = "train_data.json"
+val_filename = "val_data.json"
+
+train_data = load_data(train_filename)
+val_data = load_data(val_filename)
+
+word2idx = build_vocab(train_data)
+vocab_size = len(word2idx)
+
+labels_set = sorted({item["Label"] for item in train_data})
+label2idx = {label: idx for idx, label in enumerate(labels_set)}
+num_classes = len(label2idx)
+
+with open("word2idx.json", "w") as f:
+    json.dump(word2idx, f)
+with open("label2idx.json", "w") as f:
+    json.dump(label2idx, f)
+
+max_len = 42
+
+X_train, y_train, y_train_onehot = prepare_dataset(train_data, word2idx, label2idx, max_len)
+X_val, y_val, y_val_onehot = prepare_dataset(val_data, word2idx, label2idx, max_len)
+
+embedding_dim = 50
+filter_sizes = [2, 3, 4]
+num_filters = 64
+learning_rate = 0.001
+num_epochs = 1
+batch_size = 32
+
+try:
+    model = load_model()
+    print("Loaded saved model.")
+except Exception as e:
+    model = TextCNN(vocab_size=vocab_size,
+                    embedding_dim=embedding_dim,
+                    max_len=max_len,
+                    num_filters=num_filters,
+                    filter_sizes=filter_sizes,
+                    num_classes=num_classes,
+                    learning_rate=learning_rate)
+    print("No saved model found. Training from scratch.")
+
+num_batches = int(np.ceil(len(X_train) / batch_size))
+for epoch in range(num_epochs):
+    epoch_loss = 0
+    indices = np.arange(len(X_train))
+    np.random.shuffle(indices)
+    X_train = X_train[indices]
+    y_train_onehot = y_train_onehot[indices]
     
-    with open(unlabeled_file, 'r') as f:
-        unlabeled_data = json.load(f)['data']
+    for i in trange(num_batches, desc=f"Epoch {epoch+1}"):
+        start = i * batch_size
+        end = min((i+1) * batch_size, len(X_train))
+        X_batch = X_train[start:end]
+        y_batch_onehot = y_train_onehot[start:end]
+        loss = model.train_on_batch(X_batch, y_batch_onehot)
+        epoch_loss += loss
+    avg_loss = epoch_loss / num_batches
+    print(f"Epoch {epoch+1} average loss: {avg_loss:.4f}")
 
-    return labeled_data, unlabeled_data
+val_preds = model.forward(X_val)
+val_labels = np.argmax(val_preds, axis=1)
+true_labels = np.argmax(y_val_onehot, axis=1)
+accuracy = np.mean(val_labels == true_labels)
+print(f"Validation Accuracy: {accuracy:.4f}")
 
-def preprocess_text(text_data, word2vec_model, seq_length=20):
-    def text_to_sequence(text, model, seq_length):
-        words = text.split()
-        embeddings = [model.wv[word] for word in words if word in model.wv]
-        if len(embeddings) < seq_length:
-            embeddings += [np.zeros(model.vector_size)] * (seq_length - len(embeddings))
-        return np.array(embeddings[:seq_length])
-
-    sequences = []
-    for entry in text_data:
-        exercise_text = entry['Exercise']
-        sequence = text_to_sequence(exercise_text, word2vec_model, seq_length)
-        sequences.append(sequence)
-
-    return np.array(sequences)
-
-def encode_labels(labels, num_classes):
-    encoded = np.zeros((len(labels), num_classes))
-    for i, label in enumerate(labels):
-        encoded[i, label] = 1
-    return encoded
-
-def train_model(X_train, y_train, model, epochs=10, learning_rate=0.001, save_path="model.pkl"):
-    for epoch in range(epochs):
-        print(f"Epoch {epoch + 1}/{epochs}")
-        model.train(X_train, y_train, learning_rate=learning_rate)
-        model.save(save_path)
-        print(f"Model saved after epoch {epoch + 1}")
-
-
-def main():
-    labeled_data, unlabeled_data = load_data('labeled_data.json', 'non_labeled_data.json')
-
-    sentences = [entry['Exercise'].split() for entry in labeled_data + unlabeled_data]
-    word2vec_model = Word2Vec(sentences, vector_size=50, min_count=1)
-
-    X_labeled = preprocess_text(labeled_data, word2vec_model)
-    y_labeled = [entry['Label'] for entry in labeled_data]
-
-    label_map = {
-        "BFS": 0,
-        "DFS": 1,
-        "Two pointers": 2,
-        "Dynamic Programming(DP)": 3,
-        "Greedy Algorithm": 4,
-        "Backtracking": 5,
-        "Binary Search": 6,
-        "Disjoint Set": 7,
-        "Game Theory": 8,
-        "N/A": 9,
-    }
-
-    y_labeled = [label_map[label] for label in y_labeled]
-    y_labeled = encode_labels(y_labeled, num_classes=10)
-
-    X_train, X_val, y_train, y_val = train_test_split(X_labeled, y_labeled, test_size=0.2, random_state=42)
-
-    input_shape = X_train.shape[1:]
-    num_classes = len(label_map)
-    model = CLDNN(input_shape, num_classes)
-
-    model_path = "cldnn_model.pkl"
-    
-    try:
-        model.load(model_path)
-    except FileNotFoundError:
-        print("No saved model found. Starting fresh.")
-
-    train_model(X_train, y_train, model, epochs=10, learning_rate=0.001, save_path=model_path)
-
-    print("Evaluating on validation set...")
-    evaluate(model, X_val, y_val)
-
-def evaluate(model, X, y):
-    predictions = []
-    for sample in X:
-        output = sample[np.newaxis, ...]
-        for layer in model.layers:
-            output = layer.forward(output)
-        predictions.append(np.argmax(output, axis=-1))
-    predictions = np.concatenate(predictions)
-    accuracy = np.mean(predictions == np.argmax(y, axis=1))
-    print(f"Accuracy: {accuracy * 100:.2f}%")
-
-if __name__ == '__main__':
-    main()
+save_model(model)
+print("Model saved!")
