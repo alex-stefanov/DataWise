@@ -28,4 +28,8 @@ export class KnowledgeNexusComponent {
       }
     });
   }
+
+  reset(): void {
+    this.selectedStructure = undefined;
+  }
 }

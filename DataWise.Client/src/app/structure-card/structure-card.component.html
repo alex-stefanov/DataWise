@@ -1,8 +1,22 @@
 <div class="card">
-    <img class="card-img" [src]="structure.ImageUrl" [alt]="structure.Name" />
-    <div class="card-body">
-      <h3 class="card-title">{{ structure.Name }}</h3>
-      <p class="card-description">{{ structure.Description }}</p>
-      <p class="card-example"><strong>Example:</strong> {{ structure.Example }}</p>
+  <img class="card-img" [src]="structure.imageUrl" [alt]="structure.name" />
+  <div class="card-body">
+    <h3 class="card-title">{{ structure.name }}</h3>
+    <p class="card-description">{{ structure.description }}</p>
+    <p class="card-example"><strong>Example:</strong> {{ structure.example }}</p>
+    <div class="complexity-details">
+      <p>
+        <strong>Access Time Complexity:</strong>
+        {{ structure.accessTimeComplexity }}
+      </p>
+      <p>
+        <strong>Insertion Time Complexity:</strong>
+        {{ structure.insertionTimeComplexity }}
+      </p>
+      <p>
+        <strong>Deletion Time Complexity:</strong>
+        {{ structure.deletionTimeComplexity }}
+      </p>
     </div>
   </div>
+</div>

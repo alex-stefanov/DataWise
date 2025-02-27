@@ -25,3 +25,23 @@
   .grid-item:hover {
     background-color: #e0e0e0;
   }
+
+.back-btn {
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #36459b;
+}
+
+.structure-view {
+  padding: 20px;
+}

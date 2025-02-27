@@ -1,15 +1,20 @@
-<h2 class="page-title">Knowledge Nexus</h2>
-<div class="grid-container">
-  <div class="grid-item" (click)="fetchStructure('Array')">Array</div>
-  <div class="grid-item" (click)="fetchStructure('Linked List')">Linked List</div>
-  <div class="grid-item" (click)="fetchStructure('Stack')">Stack</div>
-  <div class="grid-item" (click)="fetchStructure('Queue')">Queue</div>
-  <div class="grid-item" (click)="fetchStructure('Hash Table')">Hash Table</div>
-  <div class="grid-item" (click)="fetchStructure('Tree')">Tree</div>
-  <div class="grid-item" (click)="fetchStructure('Heap')">Heap</div>
-  <div class="grid-item" (click)="fetchStructure('Graph')">Graph</div>
-  <div class="grid-item" (click)="fetchStructure('Set')">Set</div>
-  <div class="grid-item" (click)="fetchStructure('Map')">Map</div>
+<div *ngIf="!selectedStructure">
+  <h2 class="page-title">Knowledge Nexus</h2>
+  <div class="grid-container">
+    <div class="grid-item" (click)="fetchStructure('Array')">Array</div>
+    <div class="grid-item" (click)="fetchStructure('Linked List')">Linked List</div>
+    <div class="grid-item" (click)="fetchStructure('Stack')">Stack</div>
+    <div class="grid-item" (click)="fetchStructure('Queue')">Queue</div>
+    <div class="grid-item" (click)="fetchStructure('Hash Table')">Hash Table</div>
+    <div class="grid-item" (click)="fetchStructure('Tree')">Tree</div>
+    <div class="grid-item" (click)="fetchStructure('Heap')">Heap</div>
+    <div class="grid-item" (click)="fetchStructure('Graph')">Graph</div>
+    <div class="grid-item" (click)="fetchStructure('Set')">Set</div>
+    <div class="grid-item" (click)="fetchStructure('Map')">Map</div>
+  </div>
 </div>
 
-<app-structure-card *ngIf="selectedStructure" [structure]="selectedStructure"></app-structure-card>
+<div *ngIf="selectedStructure" class="structure-view">
+  <button class="back-btn" (click)="reset()">Back</button>
+  <app-structure-card [structure]="selectedStructure"></app-structure-card>
+</div>
