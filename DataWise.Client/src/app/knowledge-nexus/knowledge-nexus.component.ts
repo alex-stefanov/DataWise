@@ -18,6 +18,7 @@ export class KnowledgeNexusComponent {
 
   fetchStructure(name: string): void {
     const url = `https://localhost:7085/api/structure/byname/${name}`;
+    
     this.http.get<DataStructure>(url).subscribe({
       next: (data) => {
         this.selectedStructure = data;

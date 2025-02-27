@@ -18,5 +18,17 @@
         {{ structure.deletionTimeComplexity }}
       </p>
     </div>
+    <div class="code-blocks" *ngIf="structure.codeBlocks && structure.codeBlocks.length">
+      <div class="language-menu">
+        <button *ngFor="let block of structure.codeBlocks; let i = index"
+                (click)="selectLanguage(i)"
+                [class.active]="i === selectedCodeBlockIndex">
+          {{ block.language }}
+        </button>
+      </div>
+      <div class="code-display">
+        <pre><code>{{ structure.codeBlocks[selectedCodeBlockIndex]?.code }}</code></pre>
+      </div>
+    </div>
   </div>
 </div>

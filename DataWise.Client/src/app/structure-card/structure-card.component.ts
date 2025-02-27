@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 export enum Complexity {
   Constant = 0,
@@ -41,11 +42,24 @@ export interface DataStructure {
 @Component({
   selector: 'app-structure-card',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './structure-card.component.html',
   styleUrl: './structure-card.component.css'
 })
 
-export class StructureCardComponent {
+export class StructureCardComponent implements OnChanges {
   @Input() structure!: DataStructure;
+  
+  // Track the index of the selected code block
+  selectedCodeBlockIndex: number = 0;
+
+  // Reset the selected code block when input changes
+  ngOnChanges(): void {
+    this.selectedCodeBlockIndex = 0;
+  }
+
+  // Change the selected code block by index
+  selectLanguage(index: number): void {
+    this.selectedCodeBlockIndex = index;
+  }
 }

@@ -53,3 +53,41 @@
 .complexity-details p {
   margin: 4px 0;
 }
+
+.code-blocks {
+  margin-top: 12px;
+}
+
+.language-menu {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.language-menu button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.language-menu button:hover {
+  background-color: #ccc;
+}
+
+.language-menu button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.code-display pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  padding: 12px;
+  border-radius: 4px;
+  overflow: auto;
+  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+}
