@@ -14,7 +14,6 @@ export enum Complexity {
 }
 
 export interface CodeBlock {
-  title: string;
   language: string;
   code: string;
 }
@@ -50,15 +49,12 @@ export interface DataStructure {
 export class StructureCardComponent implements OnChanges {
   @Input() structure!: DataStructure;
   
-  // Track the index of the selected code block
   selectedCodeBlockIndex: number = 0;
 
-  // Reset the selected code block when input changes
   ngOnChanges(): void {
     this.selectedCodeBlockIndex = 0;
   }
 
-  // Change the selected code block by index
   selectLanguage(index: number): void {
     this.selectedCodeBlockIndex = index;
   }
