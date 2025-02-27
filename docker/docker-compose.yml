@@ -20,6 +20,8 @@ services:
       dockerfile: ../docker/AI.Dockerfile
     profiles: [ production ]
     restart: always
+    ports:
+      - 2000:5000 
 
   api:
     build:
@@ -29,6 +31,8 @@ services:
     links:
       - mongo-prod:mongo
     restart: always
+    ports:
+      - 2001:7085
 
   client:
     build:
@@ -39,6 +43,8 @@ services:
       - ai
       - api
     restart: always
+    ports:
+      - 2002:4200
 
 volumes:
   mongodb:
