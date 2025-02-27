@@ -6,14 +6,16 @@ export interface DataStructure {
   Description: string;
   ImageUrl: string;
   Example: string;
-  // Include other fields if needed
 }
 
 @Component({
   selector: 'app-structure-card',
+  standalone: true,
+  imports: [],
   templateUrl: './structure-card.component.html',
-  styleUrls: ['./structure-card.component.css']
+  styleUrl: './structure-card.component.css'
 })
+
 export class StructureCardComponent {
   @Input() structure!: DataStructure;
 }

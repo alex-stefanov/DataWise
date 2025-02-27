@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { StructureCardComponent } from '../structure-card/structure-card.component';
 import { DataStructure } from '../structure-card/structure-card.component';
 
 @Component({
   selector: 'app-knowledge-nexus',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, StructureCardComponent],
   templateUrl: './knowledge-nexus.component.html',
   styleUrls: ['./knowledge-nexus.component.css']
 })
