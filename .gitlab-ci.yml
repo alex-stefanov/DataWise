@@ -1,0 +1,20 @@
+stages:
+  - deploy
+
+variables:
+  COMPOSE_PROFILES: production
+
+staging:
+  stage: deploy
+  rules:
+    - if: $DEPLOY == "stage"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+  script:
+    - cd docker
+    - docker compose pull
+    - docker compose build
+    - docker compose down --remove-orphans
+    - docker compose up -d
+    - docker image prune -f
+  tags:
+    - staging-docker

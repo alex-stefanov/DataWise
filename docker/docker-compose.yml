@@ -1,0 +1,49 @@
+services:
+  mongo-dev:
+    image: mongo:4.4.29
+    profiles: [ development ]
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - 27017:27017
+
+  mongo-prod:
+    image: mongo:4.4.29
+    profiles: [ production ]
+    volumes:
+      - mongodb:/data/db
+    restart: always
+
+  ai:
+    build:
+      context: ../DataWise.AI
+      dockerfile: ../docker/AI.Dockerfile
+    profiles: [ production ]
+    restart: always
+
+  api:
+    build:
+      context: ..
+      dockerfile: docker/API.Dockerfile
+    profiles: [ production ]
+    links:
+      - mongo-prod:mongo
+    restart: always
+
+  client:
+    build:
+      context: ../DataWise.Client
+      dockerfile: ../docker/Client.Dockerfile
+    profiles: [ production ]
+    depends_on:
+      - ai
+      - api
+    restart: always
+
+volumes:
+  mongodb:
+
+networks:
+  default:
+    external: true
+    name: proxy

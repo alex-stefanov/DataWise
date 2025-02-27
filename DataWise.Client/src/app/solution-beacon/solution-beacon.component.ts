@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-solution-beacon',
@@ -27,7 +28,7 @@ export class SolutionBeaconComponent {
   constructor(private http: HttpClient) {}
 
   submitExercise() {
-    const url = 'https://api.datawise.notfranko.com/predict';
+    const url = `${environment.aiUrl}/predict`;
     const body = { exercise: this.inputString };
 
     this.http.post(url, body).subscribe({

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { StructureCardComponent } from '../structure-card/structure-card.component';
 import { DataStructure } from '../structure-card/structure-card.component';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-knowledge-nexus',
@@ -17,8 +18,8 @@ export class KnowledgeNexusComponent {
   constructor(private http: HttpClient) {}
 
   fetchStructure(name: string): void {
-    const url = `https://localhost:7085/api/structure/byname/${name}`;
-    
+    const url = `${environment.apiUrl}/api/structure/byname/${name}`;
+
     this.http.get<DataStructure>(url).subscribe({
       next: (data) => {
         this.selectedStructure = data;
