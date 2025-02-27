@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataWise.Data", "DataWise.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataWise.Tests", "DataWise.Tests\DataWise.Tests.csproj", "{AD13E71F-3C95-4A15-8C0F-83459CD56D98}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "DataWise.Web", "DataWise.Client\DataWise.Web.esproj", "{34D39F6D-2F4B-4496-A386-A4F607C337EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWise.Common", "DataWise.Common\DataWise.Common.csproj", "{34C87F9D-773E-4CB2-91FC-423FB226025A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +35,10 @@ Global
 		{AD13E71F-3C95-4A15-8C0F-83459CD56D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD13E71F-3C95-4A15-8C0F-83459CD56D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD13E71F-3C95-4A15-8C0F-83459CD56D98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34D39F6D-2F4B-4496-A386-A4F607C337EE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{34C87F9D-773E-4CB2-91FC-423FB226025A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34C87F9D-773E-4CB2-91FC-423FB226025A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34C87F9D-773E-4CB2-91FC-423FB226025A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34C87F9D-773E-4CB2-91FC-423FB226025A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

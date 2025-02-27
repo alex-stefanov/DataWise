@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\DataWise.Common\DataWise.Common.csproj" />
+    <ProjectReference Include="..\DataWise.Data\DataWise.Data.csproj" />
   </ItemGroup>
 
 </Project>
