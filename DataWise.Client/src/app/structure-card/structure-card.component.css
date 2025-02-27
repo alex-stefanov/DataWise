@@ -1,0 +1,41 @@
+.card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 10px;
+    width: 300px;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+  }
+  
+  .card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    padding: 10px;
+  }
+  
+  .card-title {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+  }
+  
+  .card-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .card-example {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  

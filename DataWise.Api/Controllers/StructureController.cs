@@ -12,6 +12,7 @@ public class StructureController(
 {
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(
+        [FromRoute]
         string id)
     {
         var structure = await repository.GetByIdAsync(id);
@@ -22,6 +23,7 @@ public class StructureController(
 
     [HttpGet("byname/{name}")]
     public IActionResult GetByName(
+        [FromRoute]
         string name)
     {
         var structure = repository.FirstOrDefault(ds => ds.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
