@@ -1,3 +1,4 @@
+<!-- Main Card Component -->
 <div class="card">
   <img class="card-img" [src]="structure.imageUrl" [alt]="structure.name" />
   <div class="card-body">
@@ -7,15 +8,15 @@
     <div class="complexity-details">
       <p>
         <strong>Access Time Complexity:</strong>
-        {{ structure.accessTimeComplexity }}
+        {{ getComplexityNotation(structure.accessTimeComplexity) }}
       </p>
       <p>
         <strong>Insertion Time Complexity:</strong>
-        {{ structure.insertionTimeComplexity }}
+        {{ getComplexityNotation(structure.insertionTimeComplexity) }}
       </p>
       <p>
         <strong>Deletion Time Complexity:</strong>
-        {{ structure.deletionTimeComplexity }}
+        {{ getComplexityNotation(structure.deletionTimeComplexity) }}
       </p>
     </div>
     <div class="code-blocks" *ngIf="structure.codeBlocks && structure.codeBlocks.length">
@@ -28,6 +29,40 @@
       </div>
       <div class="code-display">
         <pre><code>{{ structure.codeBlocks[selectedCodeBlockIndex].code }}</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dropdown for Subtypes (displayed only if subTypes array is non-empty) -->
+<div *ngIf="structure.subTypes && structure.subTypes.length" class="dropdown-container">
+  <button class="dropdown-button" (click)="toggleDropdown()">
+    Subtypes
+  </button>
+  <div class="dropdown-content" [class.show]="dropdownVisible">
+    <div class="subtypes">
+      <h4>Subtypes</h4>
+      <div class="subtypes-container">
+        <div class="subtype-card" *ngFor="let subtype of structure.subTypes; let i = index">
+          <h5 class="subtype-title">{{ subtype.title }}</h5>
+          <p class="subtype-description">{{ subtype.description }}</p>
+          <p class="subtype-differences">
+            <strong>Differences:</strong> {{ subtype.differences }}
+          </p>
+          <div class="subtype-code-blocks" *ngIf="subtype.codeBlocks && subtype.codeBlocks.length">
+            <div class="language-menu">
+              <button *ngFor="let block of subtype.codeBlocks; let j = index"
+                      class="language-button"
+                      (click)="selectSubtypeLanguage(i, j)"
+                      [class.active]="selectedSubtypeIndices[i] === j">
+                {{ block.language }}
+              </button>
+            </div>
+            <div class="subtype-code-display">
+              <pre><code>{{ subtype.codeBlocks[selectedSubtypeIndices[i]].code }}</code></pre>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
