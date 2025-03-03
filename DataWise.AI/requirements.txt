@@ -1,6 +1,4 @@
 numpy
 flask
-json
-pickle
+flask_cors
 tqdm
-random

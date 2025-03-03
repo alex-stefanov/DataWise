@@ -29,9 +29,9 @@ export class LeftSidebarComponent {
       label: 'Solution Beacon',
     },
     {
-      routeLink: 'settings',
+      routeLink: 'profile',
       icon: 'fal fa-cog',
-      label: 'Settings',
+      label: 'Profile',
     },
   ];
 

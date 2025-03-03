@@ -16,7 +16,13 @@ public enum Complexity
     
     Exponential = 6,  
     
-    Factorial = 7,  
-    
-    Unknown = 8
+    Factorial = 7,
+
+    //O(V+E)
+    GraphTraversal = 8,
+
+    //O(n * capacity)
+    PseudoPolynomial = 9,
+
+    Unknown = 10
 }

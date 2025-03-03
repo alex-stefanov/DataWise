@@ -1,0 +1,32 @@
+<div class="card algorithm-card">
+    <div class="card-body">
+      <h3 class="card-title">{{ algorithm.name }}</h3>
+      <p class="card-category">{{ algorithm.category.name }}</p>
+      <p class="card-description">{{ algorithm.description }}</p>
+      
+      <div class="complexity-details">
+        <p><strong>Complexity:</strong> {{ getComplexityNotation(algorithm.complexity) }}</p>
+      </div>
+      
+      <div class="use-cases" *ngIf="algorithm.useCases && algorithm.useCases.length">
+        <h4>Use Cases</h4>
+        <ul>
+          <li *ngFor="let useCase of algorithm.useCases">{{ useCase }}</li>
+        </ul>
+      </div>
+      
+      <div class="code-blocks" *ngIf="algorithm.codeBlocks && algorithm.codeBlocks.length">
+        <div class="language-menu">
+          <button *ngFor="let block of algorithm.codeBlocks; let i = index"
+                  (click)="selectLanguage(i)"
+                  [class.active]="i === selectedCodeBlockIndex">
+            {{ block.language }}
+          </button>
+        </div>
+        <div class="code-display">
+          <pre><code>{{ algorithm.codeBlocks[selectedCodeBlockIndex].code }}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  

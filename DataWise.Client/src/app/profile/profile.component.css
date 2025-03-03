@@ -1,0 +1,89 @@
+.page-title {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 20px;
+    color: #3f51b5;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.profile-container form div {
+  margin-bottom: 1rem;
+}
+
+.profile-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.profile-container input[type="text"],
+.profile-container input[type="email"],
+.profile-container input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.profile-container span {
+  font-size: 1rem;
+  color: #666;
+}
+
+.profile-container button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.profile-container button:hover {
+  background-color: #0056b3;
+}
+
+.profile-container hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.toggle-auth {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.toggle-auth button {
+  background-color: transparent;
+  color: #007bff;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+}

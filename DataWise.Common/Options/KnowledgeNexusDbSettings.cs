@@ -1,6 +1,6 @@
-﻿namespace DataWise.Common;
+﻿namespace DataWise.Common.Options;
 
-public class DataStructuresSettings
+public class KnowledgeNexusDbSettings
 {
     public string ConnectionString { get; set; } = null!;
 

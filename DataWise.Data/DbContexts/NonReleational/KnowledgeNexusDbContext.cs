@@ -1,16 +1,16 @@
-﻿using DataWise.Common;
+﻿using DataWise.Common.Options;
 using DataWise.Data.DbContexts.NonReleational.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace DataWise.Data.DbContexts.NonReleational;
 
-public class DataStructuresDbContext
+public class KnowledgeNexusDbContext
 {
     private readonly IMongoDatabase _database;
 
-    public DataStructuresDbContext(
-        IOptions<DataStructuresSettings> settings)
+    public KnowledgeNexusDbContext(
+        IOptions<KnowledgeNexusDbSettings> settings)
     {
         var client = new MongoClient(settings.Value.ConnectionString);
 
@@ -19,4 +19,7 @@ public class DataStructuresDbContext
 
     public IMongoCollection<DataStructure> DataStructures =>
         _database.GetCollection<DataStructure>("DataStructures");
+
+    public IMongoCollection<Algorithm> Algorithms =>
+        _database.GetCollection<Algorithm>("Algorithms");
 }
