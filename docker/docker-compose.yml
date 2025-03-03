@@ -55,6 +55,7 @@ services:
       dockerfile: docker/API.Dockerfile
     profiles: [ production ]
     links:
+      - sql-server-prod:sql-server
       - mongo-prod:mongo
     restart: always
     ports:
