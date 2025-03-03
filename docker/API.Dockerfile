@@ -26,4 +26,4 @@ WORKDIR /app
 
 COPY --from=build /app ./
 
-ENTRYPOINT ["dotnet", "aspnetapp.dll"]
+ENTRYPOINT ["dotnet", "DataWise.Api.dll"]

@@ -100,8 +100,8 @@ class TextCNN:
         self.backward(X, y_onehot)
         return loss
 
-def save_model(model, filename="cnn_model.npy"):
+def save_model(model, filename="models/cnn_model.npy"):
     np.save(filename, model)
 
-def load_model(filename="cnn_model.npy"):
+def load_model(filename="models/cnn_model.npy"):
     return np.load(filename, allow_pickle=True).item()

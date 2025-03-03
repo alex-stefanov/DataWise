@@ -1,3 +1,4 @@
+name: datawise
 services:
   mongo-dev:
     image: mongo:4.4.29
@@ -22,6 +23,9 @@ services:
     restart: always
     ports:
       - 2000:5000 
+
+  volumes:
+    - ai_models:/app/models
 
   api:
     build:
@@ -48,6 +52,9 @@ services:
 
 volumes:
   mongodb:
+
+volumes:
+  ai_models:
 
 networks:
   default:
