@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -43,7 +44,8 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this.http.put<any>('https://localhost:7085/api/user/profile', {
+    const url = `${environment.apiUrl}/api/user/profile`;
+    this.http.put<any>(url, {
       email: this.user.email,
       firstName: this.user.firstName,
       lastName: this.user.lastName
@@ -65,7 +67,8 @@ export class ProfileComponent implements OnInit {
       rememberMe: this.rememberMe
     };
 
-    this.http.post<any>('https://localhost:7085/api/user/login', payload).subscribe(
+    const url = `${environment.apiUrl}/api/user/login`;
+    this.http.post<any>(url, payload).subscribe(
       data => {
         console.log('Logged in successfully', data);
         this.loginError = '';
@@ -95,7 +98,8 @@ export class ProfileComponent implements OnInit {
       lastName: this.regLastName
     };
 
-    this.http.post<any>('https://localhost:7085/api/user/register', payload).subscribe(
+    const url = `${environment.apiUrl}/api/user/register`;
+    this.http.post<any>(url, payload).subscribe(
       data => {
         console.log('Registered successfully', data);
         this.regError = '';
@@ -118,7 +122,8 @@ export class ProfileComponent implements OnInit {
   }
 
   logout() {
-    this.http.post<any>('https://localhost:7085/api/user/logout', {}).subscribe(
+    const url = `${environment.apiUrl}/api/user/logout`;
+    this.http.post<any>(url, {}).subscribe(
       data => {
         console.log('Logged out successfully', data);
         this.isLoggedIn = false;

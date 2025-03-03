@@ -8,11 +8,34 @@ services:
     ports:
       - 27017:27017
 
+  sql-server-dev:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    profiles: [ development ]
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: DataWisedb_123
+      MSSQL_COLLATION: Latin1_General_100_CI_AS_KS_WS_SC_UTF8
+    volumes:
+      - sql-server:/var/opt/mssql
+    ports:
+      - 1433:1433
+
   mongo-prod:
     image: mongo:4.4.29
     profiles: [ production ]
     volumes:
       - mongodb:/data/db
+    restart: always
+
+  sql-server-prod:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    profiles: [ production ]
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: DataWisedb_123
+      MSSQL_COLLATION: Latin1_General_100_CI_AS_KS_WS_SC_UTF8
+    volumes:
+      - sql-server:/var/opt/mssql
     restart: always
 
   ai:
@@ -52,9 +75,8 @@ services:
 
 volumes:
   mongodb:
-
-volumes:
   ai_models:
+  sql-server:
 
 networks:
   default:
