@@ -1,5 +1,5 @@
 
 export const environment = {
-  aiUrl: 'https://ai.datawise.stage.techlab.cloud',
-  apiUrl: 'https://api.datawise.stage.techlab.cloud',
+  aiUrl: 'https://ai.datawise.techlab.cloud',
+  apiUrl: 'https://api.datawise.techlab.cloud',
 };

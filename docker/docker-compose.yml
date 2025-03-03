@@ -59,7 +59,7 @@ services:
       - mongo-prod:mongo
     restart: always
     ports:
-      - 2001:7085
+      - 2001:8080
 
   client:
     build:
