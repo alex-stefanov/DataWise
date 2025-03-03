@@ -7,7 +7,7 @@ import pickle
 from model import softmax
 from data_utils import tokenize, encode_sentence;
 
-with open("cnn_model_fixed.pkl", "rb") as f:
+with open("models/cnn_model_fixed.pkl", "rb") as f:
     model = pickle.load(f)
 
 with open('word2idx.json', 'r') as f:
