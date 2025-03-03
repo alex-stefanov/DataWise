@@ -46,9 +46,8 @@ services:
     restart: always
     ports:
       - 2000:5000 
-
-  volumes:
-    - ai_models:/app/models
+    volumes:
+      - ai_models:/app/models
 
   api:
     build:
