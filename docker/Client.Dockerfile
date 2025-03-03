@@ -10,4 +10,4 @@ COPY . .
 
 RUN ng build --configuration=production
 
-CMD [ "ng", "serve", "--prod", "--host", "0.0.0.0" ]
+CMD [ "ng", "serve", " -c", "production", "--host", "0.0.0.0" ] 
