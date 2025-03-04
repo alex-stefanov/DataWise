@@ -6,19 +6,6 @@ DataWise is an innovative application designed to prepare candidates for technic
 
 ---
 
-## Table of Contents 📑
-
-- [Project Overview](#project-overview)
-- [Architecture](#architecture)
-- [Prerequisites](#prerequisites)
-- [Installation & Setup](#installation--setup)
-- [Running the Project](#running-the-project)
-- [Screenshots](#screenshots)
-- [License](#license)
-- [Contact](#contact)
-
----
-
 ## Project Overview 🌟
 
 DataWise is designed for candidates and professionals preparing for technical interviews at top tech companies (e.g., FANG). It offers:
