@@ -2,7 +2,7 @@
 
 DataWise is an innovative application designed to prepare candidates for technical interviews by mastering data structures and algorithms. The platform leverages a custom-built AI model—developed entirely in Python without external AI libraries—to automatically categorize coding tasks. DataWise integrates modern technologies such as Angular for the frontend, Flask for the AI module, and ASP.NET for the API, ensuring scalability and reliability.
 
-![DataWise Logo](photos/logo.png)
+![DataWise Logo](logo.png)
 
 ---
 
