@@ -124,10 +124,10 @@ Before running the project, ensure you have the following installed on your mach
 ## Screenshots 📸
 
 ### DataWise Main Interface  
-![Main Interface](photos/main_page.png)
+![Main Interface](main_page.png)
 
 ### Application Logo  
-![Application Logo](photos/logo.png)
+![Application Logo](logo.png)
 
 ---
 
