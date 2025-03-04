@@ -69,10 +69,10 @@ Before running the project, ensure you have the following installed on your mach
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/your-username/DataWise.git
-   cd DataWise
-   ```
+  ```bash
+  git clone https://github.com/alex-stefanov/DataWise.git
+  cd DataWise
+  ```
    
 2. **Set up the Python AI Module:**
    
