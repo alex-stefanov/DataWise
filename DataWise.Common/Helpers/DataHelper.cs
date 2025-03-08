@@ -1,18 +1,26 @@
-﻿using DataWise.Common.Constants;
+﻿using CONSTANTS = DataWise.Common.Constants;
 
 namespace DataWise.Common.Helpers;
 
+/// <summary>
+/// Provides helper methods for processing and aggregating data.
+/// </summary>
 public static class DataHelper
 {
     /// <summary>
-    /// Groups records by the category column and applies the specified aggregation on the numeric value.
-    /// Returns a list of tuples (Category, AggregatedValue).
+    /// Groups records by the specified category column and applies the given aggregation 
+    /// function on the numeric value column.
     /// </summary>
+    /// <param name="records">The list of records represented as dictionaries with column names as keys.</param>
+    /// <param name="categoryColumn">The name of the column to group data by.</param>
+    /// <param name="valueColumn">The name of the column containing numeric values for aggregation.</param>
+    /// <param name="aggregation">The type of aggregation to apply (Total, Average, Minimum, Maximum).</param>
+    /// <returns>A list of tuples where each tuple contains a category and its corresponding aggregated value.</returns>
     public static List<(string Category, double AggregatedValue)> ProcessDataAggregation(
         List<Dictionary<string, string>> records,
         string categoryColumn,
         string valueColumn,
-        AggregationType aggregation)
+        CONSTANTS.AggregationType aggregation)
     {
         var groupedData = records.GroupBy(r => r[categoryColumn]);
         var result = new List<(string, double)>();
@@ -33,10 +41,10 @@ public static class DataHelper
 
             double aggregatedValue = aggregation switch
             {
-                AggregationType.Total => numericValues.Sum(),
-                AggregationType.Average => numericValues.Average(),
-                AggregationType.Minimum => numericValues.Min(),
-                AggregationType.Maximum => numericValues.Max(),
+                CONSTANTS.AggregationType.Total => numericValues.Sum(),
+                CONSTANTS.AggregationType.Average => numericValues.Average(),
+                CONSTANTS.AggregationType.Minimum => numericValues.Min(),
+                CONSTANTS.AggregationType.Maximum => numericValues.Max(),
                 _ => 0
             };
 

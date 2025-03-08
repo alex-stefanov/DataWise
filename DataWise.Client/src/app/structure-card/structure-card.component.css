@@ -130,7 +130,7 @@
   background: #fdfdfd;
   border: 1px solid #eee;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-content.show {
@@ -154,7 +154,7 @@
   border: 1px solid #eee;
   border-radius: 6px;
   padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 

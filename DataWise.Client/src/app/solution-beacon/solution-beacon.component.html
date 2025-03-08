@@ -1,4 +1,6 @@
-<h2 class="page-title">Solution Beacon</h2>
+<h2 class="page-title">
+  Solution Beacon
+</h2>
 
 <div class="input-container">
   <input
@@ -6,9 +8,13 @@
     [(ngModel)]="inputString"
     placeholder="Enter exercise"
   />
-  <button (click)="submitExercise()">Submit</button>
+  <button (click)="submitExercise()">
+    Submit
+  </button>
 </div>
 
 <div class="output-container" *ngIf="prediction" [@fadeIn]="animationKey">
-  <p>Prediction: {{ prediction }}</p>
+  <p>
+    Prediction: {{ prediction }}
+  </p>
 </div>

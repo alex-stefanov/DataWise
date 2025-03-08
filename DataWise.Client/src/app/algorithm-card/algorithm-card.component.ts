@@ -42,6 +42,7 @@ export interface Algorithm {
   templateUrl: './algorithm-card.component.html',
   styleUrls: ['./algorithm-card.component.css']
 })
+
 export class AlgorithmCardComponent implements OnChanges {
   @Input() algorithm!: Algorithm;
   

@@ -1,14 +1,27 @@
-﻿using DataWise.Data.DbContexts.NonReleational.Enums;
+﻿using MongoDB.Driver;
+using DataWise.Data.DbContexts.NonReleational.Enums;
 using DataWise.Data.DbContexts.NonReleational.Models;
-using DataWise.Data.Repositories.NonReleational;
-using MongoDB.Driver;
+using NR_REPOSITORIES = DataWise.Data.Repositories.NonReleational;
 
 namespace DataWise.Data.DbContexts.NonReleational;
 
+/// <summary>
+/// Responsible for seeding initial data for data structures and algorithms.
+/// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="DataSeeder"/> class.
+/// </remarks>
+/// <param name="dsRepository">The repository for data structures.</param>
+/// <param name="aRepository">The repository for algorithms.</param>
 public class DataSeeder(
-    IMongoRepository<DataStructure, string> dsRepository,
-    IMongoRepository<Algorithm, string> aRepository)
+    NR_REPOSITORIES.IMongoRepository<DataStructure, string> dsRepository,
+    NR_REPOSITORIES.IMongoRepository<Algorithm, string> aRepository)
 {
+
+    /// <summary>
+    /// Seeds all necessary data for data structures and algorithms.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SeedAllAsync()
     {
         await SeedDataStructuresAsync();
@@ -16,7 +29,7 @@ public class DataSeeder(
         await SeedAlgorithmsAsync();
     }
 
-    public async Task SeedDataStructuresAsync()
+    private async Task SeedDataStructuresAsync()
     {
         var existingData = await dsRepository.GetAllAsync();
 
@@ -641,7 +654,7 @@ public class DataSeeder(
             mapStructure]);
     }
 
-    public async Task SeedAlgorithmsAsync()
+    private async Task SeedAlgorithmsAsync()
     {
         var existingData = await aRepository.GetAllAsync();
 

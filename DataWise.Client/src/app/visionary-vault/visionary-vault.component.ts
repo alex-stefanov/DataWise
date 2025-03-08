@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './visionary-vault.component.html',
   styleUrls: ['./visionary-vault.component.css']
 })
+
 export class VisionaryVaultComponent {
   file: File | null = null;
   columns: string[] = [];

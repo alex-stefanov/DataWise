@@ -1,195 +1,85 @@
-﻿using System.Globalization;
-using CsvHelper;
-using DataWise.Common.Constants;
-using DataWise.Common.DTOs;
-using DataWise.Common.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
+﻿using Microsoft.AspNetCore.Mvc;
+using DTOS = DataWise.Common.DTOs;
+using INTERFACES = DataWise.Core.Services.Interfaces;
 
 namespace DataWise.Api.Controllers;
 
-[ApiController]
+/// <summary>
+/// Controller responsible for handling chart-related endpoints.
+/// </summary>
+/// <param name="chartService">The chart service instance.</param>
 [Route("api/chart")]
-public class ChartController
-    : Microsoft.AspNetCore.Mvc.ControllerBase
+[ApiController]
+public class ChartController(
+    INTERFACES.IChartService chartService)
+    : ControllerBase
 {
     /// <summary>
-    /// Extracts the header (columns) from a CSV file.
+    /// Extracts column headers from a CSV file.
     /// </summary>
+    /// <param name="file">The CSV file containing data.</param>
+    /// <returns>A list of column names.</returns>
     [HttpPost("columns")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status501NotImplemented)]
     public async Task<IActionResult> ExtractColumns(
         IFormFile file)
     {
-        if (file == null || file.Length == 0)
+        try
         {
-            return BadRequest("File is required.");
-        }
+            var columns = await chartService
+                .ExtractColumnsAsync(file);
 
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (extension != ".csv")
+            return Ok(new { Columns = columns });
+        }
+        catch (ArgumentException ex)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented, "Only CSV files are currently supported.");
+            return BadRequest(ex.Message);
         }
-
-        using var stream = file.OpenReadStream();
-        using var reader = new StreamReader(stream);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-
-        if (!await csv.ReadAsync()
-            || !csv.ReadHeader())
+        catch (NotSupportedException ex)
         {
-            return BadRequest("CSV file is missing a header.");
+            return StatusCode(StatusCodes.Status501NotImplemented, ex.Message);
         }
-
-        var headers = csv.HeaderRecord;
-        return Ok(new { Columns = headers });
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     /// <summary>
-    /// Generates a chart image based on the CSV file and provided chart configuration.
+    /// Generates a chart image based on a CSV file and provided chart configuration.
     /// </summary>
+    /// <param name="request">The chart configuration details.</param>
+    /// <param name="file">The CSV file containing data.</param>
+    /// <returns>The generated chart image in PNG format.</returns>
     [HttpPost("generate")]
+    [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status501NotImplemented)]
     public async Task<IActionResult> GenerateChart(
-        [FromForm] 
-        ChartDto request,
+        [FromForm]
+        DTOS.ChartDto request,
         IFormFile file)
     {
-        if (file == null 
-            || file.Length == 0)
+        try
         {
-            return BadRequest("File is required.");
+            var imageBytes = await chartService
+                .GenerateChartAsync(request, file);
+
+            return File(imageBytes, "image/png");
         }
-
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-
-        if (extension != ".csv")
+        catch (ArgumentException ex)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented, "Only CSV files are currently supported.");
+            return BadRequest(ex.Message);
         }
-
-        switch (request.ChartType)
+        catch (NotSupportedException ex)
         {
-            case ChartType.Pie:
-            case ChartType.Line:
-            case ChartType.Bar:
-                {
-                    break;
-                }
-            default:
-                {
-                    return BadRequest("Unsupported chart type.");
-                }
+            return StatusCode(StatusCodes.Status501NotImplemented, ex.Message);
         }
-
-        var records = new List<Dictionary<string, string>>();
-
-        using var stream = file.OpenReadStream();
-        using var reader = new StreamReader(stream);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-
-        csv.Read();
-        csv.ReadHeader();
-
-        while (await csv.ReadAsync())
+        catch (Exception ex)
         {
-            var record = new Dictionary<string, string>
-            {
-                [request.CategoryColumn] = csv.GetField(request.CategoryColumn)!,
-                [request.ValueColumn] = csv.GetField(request.ValueColumn)!
-            };
-
-            records.Add(record);
+            return BadRequest(ex.Message);
         }
-
-        string categoryColumn = request.CategoryColumn;
-        string valueColumn = request.ValueColumn;
-
-        var aggregatedData = DataHelper.ProcessDataAggregation(records, categoryColumn, valueColumn, request.Aggregation);
-
-        var plotModel = new PlotModel { Title = request.Title };
-
-        switch (request.ChartType)
-        {
-            case ChartType.Line:
-                {
-                    var lineSeries = new LineSeries();
-                    int index = 0;
-
-                    foreach (var (Category, AggregatedValue) in aggregatedData)
-                    {
-                        lineSeries.Points.Add(new DataPoint(index++, AggregatedValue));
-                    }
-
-                    plotModel.Series.Add(lineSeries);
-
-                    plotModel.Axes.Add(new CategoryAxis
-                    {
-                        Position = AxisPosition.Bottom,
-                        ItemsSource = aggregatedData.Select(d => d.Category).ToList()
-                    });
-
-                    break;
-                }
-            case ChartType.Bar:
-                {
-                    var barSeries = new BarSeries();
-
-                    foreach (var (Category, AggregatedValue) in aggregatedData)
-                    {
-                        barSeries.Items.Add(new BarItem(AggregatedValue));
-                    }
-
-                    plotModel.Series.Add(barSeries);
-
-                    plotModel.Axes.Add(new CategoryAxis
-                    {
-                        Position = AxisPosition.Left,
-                        ItemsSource = aggregatedData.Select(d => d.Category).ToList()
-                    });
-
-                    break;
-                }
-            case ChartType.Pie:
-                {
-                    var pieSeries = new PieSeries();
-
-                    foreach (var (Category, AggregatedValue) in aggregatedData)
-                    {
-                        pieSeries.Slices.Add(new PieSlice(Category, AggregatedValue));
-                    }
-
-                    plotModel.Series.Add(pieSeries);
-
-                    break;
-                }
-            default:
-                {
-                    return BadRequest("Unsupported chart type.");
-                }
-        }
-
-        using var chartStream = new MemoryStream();
-
-        var pngExporter = new OxyPlot.SkiaSharp.PngExporter
-        {
-            Width = 1200,
-            Height = 800
-        };
-
-        foreach (var axis in plotModel.Axes)
-        {
-            if (axis is CategoryAxis categoryAxis)
-            {
-                categoryAxis.FontSize = 14;
-                categoryAxis.Angle = 45;
-            }
-        }
-
-        pngExporter.Export(plotModel, chartStream);
-        chartStream.Seek(0, SeekOrigin.Begin);
-
-        return File(chartStream.ToArray(), "image/png");
     }
 }

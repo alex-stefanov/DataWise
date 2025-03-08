@@ -4,6 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataWise.Data.Repositories.Releational;
 
+/// <summary>
+/// Provides the implementation of the repository pattern for performing CRUD operations on a SQL-based data source using Entity Framework.
+/// </summary>
+/// <typeparam name="TType">The type of the entity being managed by the repository.</typeparam>
+/// <typeparam name="TId">The type of the identifier for the entity.</typeparam>
+/// <param name="dbContext">The database context to be used for CRUD operations.</param>
 public class SQLRepository<TType, TId>(
     UserDbContext dbContext)
     : ISQLRepository<TType, TId>
@@ -12,6 +18,7 @@ public class SQLRepository<TType, TId>(
     private readonly DbSet<TType> dbSet
         = dbContext.Set<TType>();
 
+    /// <inheritdoc />
     public void Add(
         TType item)
     {
@@ -19,6 +26,7 @@ public class SQLRepository<TType, TId>(
         dbContext.SaveChanges();
     }
 
+    /// <inheritdoc />
     public async Task AddAsync(
         TType item)
     {
@@ -26,6 +34,7 @@ public class SQLRepository<TType, TId>(
         await dbContext.SaveChangesAsync();
     }
 
+    /// <inheritdoc />
     public void AddRange(
         TType[] items)
     {
@@ -33,6 +42,7 @@ public class SQLRepository<TType, TId>(
         dbContext.SaveChanges();
     }
 
+    /// <inheritdoc />
     public async Task AddRangeAsync(
         TType[] items)
     {
@@ -40,6 +50,7 @@ public class SQLRepository<TType, TId>(
         await dbContext.SaveChangesAsync();
     }
 
+    /// <inheritdoc />
     public bool Delete(
         TType entity)
     {
@@ -49,6 +60,7 @@ public class SQLRepository<TType, TId>(
         return changes > 0;
     }
 
+    /// <inheritdoc />
     public async Task<bool> DeleteAsync(
         TType entity)
     {
@@ -58,6 +70,7 @@ public class SQLRepository<TType, TId>(
         return changes > 0;
     }
 
+    /// <inheritdoc />
     public TType? FirstOrDefault(
         Func<TType, bool> predicate)
     {
@@ -67,30 +80,29 @@ public class SQLRepository<TType, TId>(
         return entity;
     }
 
+    /// <inheritdoc />
     public async Task<TType?> FirstOrDefaultAsync(
         Expression<Func<TType, bool>> predicate)
     {
         TType? entity = await dbSet
-             .FirstOrDefaultAsync(predicate);
+            .FirstOrDefaultAsync(predicate);
 
         return entity;
     }
 
+    /// <inheritdoc />
     public IEnumerable<TType> GetAll()
-    {
-        return [.. dbSet];
-    }
+        => dbSet;
 
+    /// <inheritdoc />
     public async Task<IEnumerable<TType>> GetAllAsync()
-    {
-        return await dbSet.ToArrayAsync();
-    }
+        => await dbSet.ToArrayAsync();
 
+    /// <inheritdoc />
     public IQueryable<TType> GetAllAttached()
-    {
-        return dbSet.AsQueryable();
-    }
+        => dbSet.AsQueryable();
 
+    /// <inheritdoc />
     public TType? GetById(
         TId id)
     {
@@ -100,6 +112,7 @@ public class SQLRepository<TType, TId>(
         return entity;
     }
 
+    /// <inheritdoc />
     public async Task<TType?> GetByIdAsync(
         TId id)
     {
@@ -109,6 +122,7 @@ public class SQLRepository<TType, TId>(
         return entity;
     }
 
+    /// <inheritdoc />
     public bool Update(
         TType item)
     {
@@ -126,6 +140,7 @@ public class SQLRepository<TType, TId>(
         }
     }
 
+    /// <inheritdoc />
     public async Task<bool> UpdateAsync(
         TType item)
     {

@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent implements OnInit {
   user = {
     email: '',

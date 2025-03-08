@@ -1,87 +1,96 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using DataWise.Data.DbContexts.Releational.Models;
-using DataWise.Common.DTOs;
+using DTOS = DataWise.Common.DTOs;
+using INTERAFCES = DataWise.Core.Services.Interfaces;
 
 namespace DataWise.Api.Controllers;
 
-[ApiController]
+/// <summary>
+/// Controller responsible for user authentication and profile management.
+/// </summary>
+/// <param name="userService">The user service instance.</param>
 [Route("api/user")]
-public class UserController(
-    UserManager<WiseClient> userManager,
-    SignInManager<WiseClient> signInManager)
+[ApiController]
+public class UserController (
+    INTERAFCES.IUserService userService)
     : ControllerBase
 {
+    /// <summary>
+    /// Registers a new user.
+    /// </summary>
+    /// <param name="model">The registration details.</param>
+    /// <returns>An action result indicating the outcome of the registration.</returns>
     [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register(
         [FromBody]
-        RegisterDto model)
+        DTOS.RegisterDto model)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var user = new WiseClient
-        {
-            UserName = model.Email,
-            Email = model.Email,
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            Points = 0
-        };
+        var (succeeded, message, errors) = await userService
+            .RegisterAsync(model);
 
-        IdentityResult result;
-        try
-        {
-            result = await userManager.CreateAsync(user, model.Password);
-        }
-        catch(Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        if (succeeded)
+            return Ok(new { message });
 
-        if (result.Succeeded)
-        {
-            await signInManager.SignInAsync(user, isPersistent: false);
-            return Ok(new { message = "User registered successfully." });
-        }
-
-        return BadRequest(result.Errors);
+        return BadRequest(new { message, errors });
     }
 
+    /// <summary>
+    /// Logs in a user.
+    /// </summary>
+    /// <param name="model">The login details.</param>
+    /// <returns>An action result indicating the outcome of the login attempt.</returns>
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login(
         [FromBody]
-        LoginDto model)
+        DTOS.LoginDto model)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-        if (result.Succeeded)
-        {
-            return Ok(new { message = "User logged in successfully." });
-        }
+        var (succeeded, message) = await userService
+            .LoginAsync(model);
 
-        return Unauthorized(new { message = "Invalid login attempt." });
+        if (succeeded)
+            return Ok(new { message });
+
+        return Unauthorized(new { message });
     }
 
+    /// <summary>
+    /// Logs out the current user.
+    /// </summary>
+    /// <returns>An action result indicating the outcome of the logout operation.</returns>
     [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Logout()
     {
-        await signInManager.SignOutAsync();
+        await userService
+            .LogoutAsync();
+
         return Ok(new { message = "User logged out successfully." });
     }
 
+    /// <summary>
+    /// Retrieves the current user's profile.
+    /// </summary>
+    /// <returns>The user's profile details.</returns>
     [HttpGet("profile")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Profile()
     {
-        var userId = userManager.GetUserId(User);
-        if (userId is null)
-            return Unauthorized();
+        var user = await userService
+            .GetProfileAsync(User);
 
-        var user = await userManager.FindByIdAsync(userId);
         if (user is null)
-            return NotFound();
+            return Unauthorized(new { message = "User is not authenticated." });
 
         return Ok(new
         {
@@ -92,30 +101,29 @@ public class UserController(
         });
     }
 
+    /// <summary>
+    /// Updates the current user's profile.
+    /// </summary>
+    /// <param name="model">The updated profile details.</param>
+    /// <returns>An action result indicating the outcome of the update operation.</returns>
     [HttpPut("profile")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateProfile(
         [FromBody] 
-        UpdateProfileDto model)
+        DTOS.UpdateProfileDto model)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var user = await userManager.FindByEmailAsync(model.Email);
-        if (user is null)
-            return NotFound();
+        var (succeeded, message, errors) = await userService.UpdateProfileAsync(model);
 
-        if(!string.IsNullOrEmpty(model.FirstName))
-            model.FirstName = user.FirstName;
+        if (succeeded)
+            return Ok(new { message });
+        else if (message.Contains("not found"))
+            return NotFound(new { message });
 
-        if (!string.IsNullOrEmpty(model.LastName))
-            user.FirstName = model.LastName;
-
-        var result = await userManager.UpdateAsync(user);
-        if (result.Succeeded)
-        {
-            return Ok(new { message = "Profile updated successfully." });
-        }
-
-        return BadRequest(result.Errors);
+        return BadRequest(new { message, errors });
     }
 }

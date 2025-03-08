@@ -1,112 +1,112 @@
 .algorithm-card {
-    max-width: 400px;
-    margin: 20px auto;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .algorithm-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .algorithm-card .card-body {
-    padding: 16px;
-  }
-  
-  .algorithm-card .card-title {
-    margin: 0 0 12px;
-    font-size: 1.75rem;
-    color: #3f51b5;
-  }
-  
-  .algorithm-card .card-category {
-    margin: 0 0 8px;
-    font-size: 1.1rem;
-    color: #757575;
-  }
-  
-  .algorithm-card .card-description {
-    margin: 0 0 12px;
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.5;
-  }
-  
-  .algorithm-card .complexity-details {
-    background-color: #f0f0f0;
-    border-top: 1px solid #eee;
-    padding: 12px;
-    font-size: 0.9rem;
-    color: #444;
-  }
-  
-  .algorithm-card .complexity-details p {
-    margin: 4px 0;
-  }
-  
-  .algorithm-card .use-cases {
-    margin: 12px 0;
-  }
-  
-  .algorithm-card .use-cases h4 {
-    margin-bottom: 8px;
-    font-size: 1.25rem;
-    color: #3f51b5;
-  }
-  
-  .algorithm-card .use-cases ul {
-    list-style: disc;
-    padding-left: 20px;
-    margin: 0;
-  }
-  
-  .algorithm-card .code-blocks {
-    margin-top: 12px;
-  }
-  
-  .algorithm-card .language-menu {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .algorithm-card .language-menu button {
-    padding: 6px 12px;
-    border: none;
-    background-color: #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .algorithm-card .language-menu button:hover {
-    background-color: #ccc;
-  }
-  
-  .algorithm-card .language-menu button.active {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .algorithm-card .code-display {
-    display: flex;
-    justify-content: center;
-    margin-top: 12px;
-  }
-  
-  .algorithm-card .code-display pre {
-    max-width: 90%;
-    width: 100%;
-    text-align: left;
-    background-color: #2e2e2e;
-    color: #f8f8f2;
-    padding: 12px;
-    border-radius: 4px;
-    overflow: auto;
-    font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
-    font-size: 0.9rem;
-  }  
+  max-width: 400px;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.algorithm-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.algorithm-card .card-body {
+  padding: 16px;
+}
+
+.algorithm-card .card-title {
+  margin: 0 0 12px;
+  font-size: 1.75rem;
+  color: #3f51b5;
+}
+
+.algorithm-card .card-category {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #757575;
+}
+
+.algorithm-card .card-description {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.algorithm-card .complexity-details {
+  background-color: #f0f0f0;
+  border-top: 1px solid #eee;
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.algorithm-card .complexity-details p {
+  margin: 4px 0;
+}
+
+.algorithm-card .use-cases {
+  margin: 12px 0;
+}
+
+.algorithm-card .use-cases h4 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+  color: #3f51b5;
+}
+
+.algorithm-card .use-cases ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.algorithm-card .code-blocks {
+  margin-top: 12px;
+}
+
+.algorithm-card .language-menu {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.algorithm-card .language-menu button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.algorithm-card .language-menu button:hover {
+  background-color: #ccc;
+}
+
+.algorithm-card .language-menu button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.algorithm-card .code-display {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.algorithm-card .code-display pre {
+  max-width: 90%;
+  width: 100%;
+  text-align: left;
+  background-color: #2e2e2e;
+  color: #f8f8f2;
+  padding: 12px;
+  border-radius: 4px;
+  overflow: auto;
+  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+}

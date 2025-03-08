@@ -1,10 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
-
+using Microsoft.EntityFrameworkCore;
+using INTERFACES = DataWise.Core.Services.Interfaces;
+using IMPLEMENTATIONS = DataWise.Core.Services.Implementations;
+using RELEATIONAL = DataWise.Data.DbContexts.Releational;
+using R_MODELS = DataWise.Data.DbContexts.Releational.Models;
 
 namespace DataWise.Api.Extensions;
 
+/// <summary>
+/// Provides extension methods for configuring Identity, database contexts, and dependency injection services.
+/// </summary>
 public static class WebApplicationBuilderExtensions
 {
+    /// <summary>
+    /// Configures Identity options using values from the application's configuration.
+    /// </summary>
+    /// <param name="builder">The WebApplicationBuilder instance.</param>
+    /// <param name="cfg">The IdentityOptions instance to configure.</param>
     public static void ConfigureIdentity(
         this WebApplicationBuilder builder,
         IdentityOptions cfg)
@@ -31,5 +43,33 @@ public static class WebApplicationBuilderExtensions
 
         cfg.User.RequireUniqueEmail =
             builder.Configuration.GetValue<bool>("Identity:User:RequireUniqueEmail");
+    }
+
+    /// <summary>
+    /// Registers SQL Server context and ASP.NET Core Identity services.
+    /// </summary>
+    public static IServiceCollection AddUserServices(
+        this WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<RELEATIONAL.UserDbContext>(options =>
+        {
+            options.UseSqlServer("Server=localhost;Database=DataWiseClient;User Id=SA;Password=Str0ngPa$$w0rd;TrustServerCertificate=True;");
+        });
+
+        builder.Services.AddIdentity<R_MODELS.WiseClient, IdentityRole<string>>(cfg =>
+        {
+            builder.ConfigureIdentity(cfg);
+        })
+        .AddEntityFrameworkStores<RELEATIONAL.UserDbContext>()
+        .AddRoles<IdentityRole<string>>()
+        .AddSignInManager<SignInManager<R_MODELS.WiseClient>>()
+        .AddUserManager<UserManager<R_MODELS.WiseClient>>();
+
+        builder.Services.AddScoped<INTERFACES.IAlgorithmService, IMPLEMENTATIONS.AlgorithmService>();
+        builder.Services.AddScoped<INTERFACES.IChartService, IMPLEMENTATIONS.ChartService>();
+        builder.Services.AddScoped<INTERFACES.IStructureService, IMPLEMENTATIONS.StructureService>();
+        builder.Services.AddScoped<INTERFACES.IUserService, IMPLEMENTATIONS.UserService>();
+
+        return builder.Services;
     }
 }

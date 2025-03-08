@@ -9,6 +9,7 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
 })
+
 export class MainComponent {
   isLeftSidebarCollapsed = input.required<boolean>();
   screenWidth = input.required<number>();

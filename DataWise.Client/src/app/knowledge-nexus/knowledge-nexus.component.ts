@@ -12,6 +12,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './knowledge-nexus.component.html',
   styleUrls: ['./knowledge-nexus.component.css']
 })
+
 export class KnowledgeNexusComponent {
   selectedStructure?: DataStructure;
   selectedAlgorithm?: Algorithm;

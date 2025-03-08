@@ -20,6 +20,7 @@ import { environment } from '../../environments/environment';
     ])
   ]
 })
+
 export class SolutionBeaconComponent {
   inputString: string = '';
   prediction: string = '';

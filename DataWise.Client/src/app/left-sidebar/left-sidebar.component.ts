@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './left-sidebar.component.html',
   styleUrl: './left-sidebar.component.css',
 })
+
 export class LeftSidebarComponent {
   isLeftSidebarCollapsed = input.required<boolean>();
   changeIsLeftSidebarCollapsed = output<boolean>();

@@ -1,86 +1,197 @@
-<!-- Grids Container: Display only when nothing is selected -->
 <div *ngIf="!selectedStructure && !selectedAlgorithm">
-  <!-- Data Structures Grid -->
-  <h2 class="page-title">Data Structures</h2>
+  <h2 class="page-title">
+    Data Structures
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchStructure('Array')">Array</div>
-    <div class="grid-item" (click)="fetchStructure('Linked List')">Linked List</div>
-    <div class="grid-item" (click)="fetchStructure('Stack')">Stack</div>
-    <div class="grid-item" (click)="fetchStructure('Queue')">Queue</div>
-    <div class="grid-item" (click)="fetchStructure('Hash Table')">Hash Table</div>
-    <div class="grid-item" (click)="fetchStructure('Tree')">Tree</div>
-    <div class="grid-item" (click)="fetchStructure('Heap')">Heap</div>
-    <div class="grid-item" (click)="fetchStructure('Graph')">Graph</div>
-    <div class="grid-item" (click)="fetchStructure('Set')">Set</div>
-    <div class="grid-item" (click)="fetchStructure('Map')">Map</div>
+    <div class="grid-item" (click)="fetchStructure('Array')">
+      Array
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Linked List')">
+      Linked List
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Stack')">
+      Stack
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Queue')">
+      Queue
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Hash Table')">
+      Hash Table
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Tree')">
+      Tree
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Heap')">
+      Heap
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Graph')">
+      Graph
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Set')">
+      Set
+    </div>
+
+    <div class="grid-item" (click)="fetchStructure('Map')">
+      Map
+    </div>
   </div>
 
-  <!-- Sorting Algorithms Grid -->
-  <h2 class="page-title">Sorting Algorithms</h2>
+  <h2 class="page-title">
+    Sorting Algorithms
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchAlgorithm('Bubble')">Bubble</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Quick')">Quick</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Merge')">Merge</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Insertion')">Insertion</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Selection')">Selection</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Heap')">Heap</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Radix')">Radix</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Counting')">Counting</div>
+    <div class="grid-item" (click)="fetchAlgorithm('Bubble')">
+      Bubble
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Quick')">
+      Quick
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Merge')">
+      Merge
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Insertion')">
+      Insertion
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Selection')">
+      Selection
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Heap')">
+      Heap
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Radix')">
+      Radix
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Counting')">
+      Counting
+    </div>
   </div>
 
-  <!-- Search Algorithms Grid -->
-  <h2 class="page-title">Search Algorithms</h2>
+  <h2 class="page-title">
+    Search Algorithms
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchAlgorithm('DFS')">DFS</div>
-    <div class="grid-item" (click)="fetchAlgorithm('BFS')">BFS</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Binary')">Binary</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Linear')">Linear</div>
+    <div class="grid-item" (click)="fetchAlgorithm('DFS')">
+      DFS
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('BFS')">
+      BFS
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Binary')">
+      Binary
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Linear')">
+      Linear
+    </div>
   </div>
 
-  <!-- Graph Algorithms Grid -->
-  <h2 class="page-title">Graph Algorithms</h2>
+  <h2 class="page-title">
+    Graph Algorithms
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchAlgorithm('Dijkstra')">Dijkstra</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Bellman-Ford')">Bellman-Ford</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Floyd-Warshall')">Floyd-Warshall</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Kruskal')">Kruskal</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Prim')">Prim</div>
-    <div class="grid-item" (click)="fetchAlgorithm('A*')">A*</div>
+    <div class="grid-item" (click)="fetchAlgorithm('Dijkstra')">
+      Dijkstra
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Bellman-Ford')">
+      Bellman-Ford
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Floyd-Warshall')">
+      Floyd-Warshall
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Kruskal')">
+      Kruskal
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Prim')">
+      Prim
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('A*')">
+      A*
+    </div>
   </div>
 
-  <!-- Dynamic Programming Algorithms Grid -->
-  <h2 class="page-title">Dynamic Programming</h2>
+  <h2 class="page-title">
+    Dynamic Programming
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchAlgorithm('Knapsack')">Knapsack</div>
+    <div class="grid-item" (click)="fetchAlgorithm('Knapsack')">
+      Knapsack
+    </div>
+
     <div class="grid-item" (click)="fetchAlgorithm('LCS')">LCS</div>
     <div class="grid-item" (click)="fetchAlgorithm('Matrix Chain Multiplication')">Matrix Chain Multiplication</div>
     <div class="grid-item" (click)="fetchAlgorithm('Fibonacci with Memoization')">Fibonacci with Memoization</div>
   </div>
 
-  <!-- Greedy Algorithms Grid -->
-  <h2 class="page-title">Greedy Algorithms</h2>
+  <h2 class="page-title">
+    Greedy Algorithms
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchAlgorithm('Activity Selection')">Activity Selection</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Huffman Coding')">Huffman Coding</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Fractional Knapsack')">Fractional Knapsack</div>
+    <div class="grid-item" (click)="fetchAlgorithm('Activity Selection')">
+      Activity Selection
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Huffman Coding')">
+      Huffman Coding
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Fractional Knapsack')">
+      Fractional Knapsack
+    </div>
   </div>
 
-  <!-- Backtracking Algorithms Grid -->
-  <h2 class="page-title">Backtracking Algorithms</h2>
+  <h2 class="page-title">
+    Backtracking Algorithms
+  </h2>
+
   <div class="grid-container">
-    <div class="grid-item" (click)="fetchAlgorithm('N-Queens Problem')">N-Queens Problem</div>
-    <div class="grid-item" (click)="fetchAlgorithm('Sudoku Solver')">Sudoku Solver</div>
+    <div class="grid-item" (click)="fetchAlgorithm('N-Queens Problem')">
+      N-Queens Problem
+    </div>
+
+    <div class="grid-item" (click)="fetchAlgorithm('Sudoku Solver')">
+      Sudoku Solver
+    </div>
   </div>
 </div>
 
-<!-- Structure Detail View -->
 <div *ngIf="selectedStructure" class="structure-view">
-  <button class="back-btn" (click)="reset()">Back</button>
+  <button class="back-btn" (click)="reset()">
+    Back
+  </button>
   <app-structure-card [structure]="selectedStructure"></app-structure-card>
 </div>
 
-<!-- Algorithm Detail View -->
 <div *ngIf="selectedAlgorithm" class="algorithm-view">
-  <button class="back-btn" (click)="resetAlgorithm()">Back</button>
+  <button class="back-btn" (click)="resetAlgorithm()">
+    Back
+  </button>
   <app-algorithm-card [algorithm]="selectedAlgorithm"></app-algorithm-card>
 </div>
