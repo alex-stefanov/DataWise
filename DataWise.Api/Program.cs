@@ -32,6 +32,8 @@ public class Program
             .UseCustomHttpsRedirection()
             .UseCustomCors();
 
+        app.UseCors("AllowAll");
+
         app.UseAuthorization();
         app.MapControllers();
 

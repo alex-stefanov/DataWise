@@ -14,7 +14,7 @@ RUN dotnet restore
 
 COPY ./DataWise.Api/* ./DataWise.Api/
 COPY ./DataWise.Common/* ./DataWise.Common/
-COPY ./DataWise.Common/* ./DataWise.Common/
+COPY ./DataWise.Core/* ./DataWise.Core/
 COPY ./DataWise.Data/* ./DataWise.Data/
 COPY ./DataWise.Tests/* ./DataWise.Tests/
 
