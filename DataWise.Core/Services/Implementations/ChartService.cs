@@ -43,15 +43,13 @@ public class ChartService
 
     /// <inheritdoc />
     public async Task<byte[]> GenerateChartAsync(
-        ChartDto request,
-        IFormFile file)
+    ChartDto request,
+    IFormFile file)
     {
-        if (file is null 
-            || file.Length == 0)
+        if (file is null || file.Length == 0)
             throw new ArgumentException("File is required.");
 
         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-
         if (extension != ".csv")
             throw new NotSupportedException("Only CSV files are currently supported.");
 
@@ -61,7 +59,6 @@ public class ChartService
             throw new NotSupportedException("Unsupported chart type.");
 
         var records = new List<Dictionary<string, string>>();
-
         using var stream = file.OpenReadStream();
         using var reader = new StreamReader(stream);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -83,7 +80,7 @@ public class ChartService
         var aggregatedData = DataHelper.ProcessDataAggregation(
             records, request.CategoryColumn, request.ValueColumn, request.Aggregation);
 
-        var plotModel = new PlotModel 
+        var plotModel = new PlotModel
         {
             Title = request.Title
         };
@@ -94,50 +91,41 @@ public class ChartService
                 {
                     var lineSeries = new LineSeries();
                     int index = 0;
-
                     foreach (var (Category, AggregatedValue) in aggregatedData)
                     {
                         lineSeries.Points.Add(new DataPoint(index++, AggregatedValue));
                     }
-
                     plotModel.Series.Add(lineSeries);
                     plotModel.Axes.Add(new CategoryAxis
                     {
                         Position = AxisPosition.Bottom,
                         ItemsSource = aggregatedData.Select(d => d.Category).ToList()
                     });
-
                     break;
                 }
             case ChartType.Bar:
                 {
                     var barSeries = new BarSeries();
-
                     foreach (var (Category, AggregatedValue) in aggregatedData)
                     {
                         barSeries.Items.Add(new BarItem(AggregatedValue));
                     }
-
                     plotModel.Series.Add(barSeries);
                     plotModel.Axes.Add(new CategoryAxis
                     {
                         Position = AxisPosition.Left,
                         ItemsSource = aggregatedData.Select(d => d.Category).ToList()
                     });
-
                     break;
                 }
             case ChartType.Pie:
                 {
                     var pieSeries = new PieSeries();
-
                     foreach (var (Category, AggregatedValue) in aggregatedData)
                     {
                         pieSeries.Slices.Add(new PieSlice(Category, AggregatedValue));
                     }
-
                     plotModel.Series.Add(pieSeries);
-
                     break;
                 }
         }
@@ -151,15 +139,13 @@ public class ChartService
             }
         }
 
-        using var chartStream = new MemoryStream();
-        var pngExporter = new OxyPlot.SkiaSharp.PngExporter
+        var svgExporter = new SvgExporter 
         {
             Width = 1200,
-            Height = 800
+            Height = 800 
         };
 
-        pngExporter.Export(plotModel, chartStream);
-
-        return chartStream.ToArray();
+        string svg = svgExporter.ExportToString(plotModel);
+        return System.Text.Encoding.UTF8.GetBytes(svg);
     }
 }

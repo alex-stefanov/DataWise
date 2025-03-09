@@ -67,7 +67,7 @@ public class ChartController(
             var imageBytes = await chartService
                 .GenerateChartAsync(request, file);
 
-            return File(imageBytes, "image/png");
+            return File(imageBytes, "image/svg+xml");
         }
         catch (ArgumentException ex)
         {
