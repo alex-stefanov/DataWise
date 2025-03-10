@@ -1,3 +1,4 @@
+using DotNetEnv;
 using DataWise.Api.Extensions;
 
 namespace DataWise.Api;
@@ -7,6 +8,8 @@ public class Program
     public async static Task Main(
         string[] args)
     {
+        Env.Load();
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services
