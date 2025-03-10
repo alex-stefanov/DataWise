@@ -5,6 +5,7 @@ using DataWise.Common.DTOs;
 using DataWise.Common.Helpers;
 using DataWise.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using OpenAI_API;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -14,7 +15,8 @@ namespace DataWise.Core.Services.Implementations;
 /// <summary>
 /// Implements chart generation functionalities using CSV data.
 /// </summary>
-public class ChartService 
+public class ChartService(
+    OpenAIAPI openAIAPI)
     : IChartService
 {
     /// <inheritdoc />
@@ -43,8 +45,8 @@ public class ChartService
 
     /// <inheritdoc />
     public async Task<byte[]> GenerateChartAsync(
-    ChartDto request,
-    IFormFile file)
+        ChartDto request,
+        IFormFile file)
     {
         if (file is null || file.Length == 0)
             throw new ArgumentException("File is required.");
@@ -73,11 +75,20 @@ public class ChartService
                 [request.CategoryColumn] = csv.GetField(request.CategoryColumn)!,
                 [request.ValueColumn] = csv.GetField(request.ValueColumn)!
             };
-
             records.Add(record);
         }
 
-        var aggregatedData = DataHelper.ProcessDataAggregation(
+        bool isNumeric = await ValidationHelper.IsColumnNumericAsync(
+            records,
+            request.ValueColumn,
+            openAIAPI);
+
+        if (!isNumeric)
+        {
+            throw new Exception($"The column '{request.ValueColumn}' is not recognized as numeric.");
+        }
+
+        var aggregatedData = ValidationHelper.ProcessDataAggregation(
             records, request.CategoryColumn, request.ValueColumn, request.Aggregation);
 
         var plotModel = new PlotModel
@@ -139,10 +150,10 @@ public class ChartService
             }
         }
 
-        var svgExporter = new SvgExporter 
+        var svgExporter = new SvgExporter
         {
             Width = 1200,
-            Height = 800 
+            Height = 800
         };
 
         string svg = svgExporter.ExportToString(plotModel);

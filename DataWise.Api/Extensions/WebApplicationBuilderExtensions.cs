@@ -4,6 +4,7 @@ using INTERFACES = DataWise.Core.Services.Interfaces;
 using IMPLEMENTATIONS = DataWise.Core.Services.Implementations;
 using RELEATIONAL = DataWise.Data.DbContexts.Releational;
 using R_MODELS = DataWise.Data.DbContexts.Releational.Models;
+using OpenAI_API;
 
 namespace DataWise.Api.Extensions;
 
@@ -51,6 +52,13 @@ public static class WebApplicationBuilderExtensions
     public static IServiceCollection AddUserServices(
         this WebApplicationBuilder builder)
     {
+        builder.Services.AddSingleton<OpenAIAPI>(sp =>
+        {
+            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API") 
+                ?? throw new Exception("Missing OPENAI_API configuration.");
+            return new OpenAIAPI(new APIAuthentication(apiKey));
+        });
+
         builder.Services.AddDbContext<RELEATIONAL.UserDbContext>(options =>
         {
             options.UseSqlServer("Server=localhost;Database=DataWiseClient;User Id=SA;Password=Str0ngPa$$w0rd;TrustServerCertificate=True;");
