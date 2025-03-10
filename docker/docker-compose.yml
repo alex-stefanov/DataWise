@@ -60,6 +60,8 @@ services:
     restart: always
     ports:
       - 2001:8080
+    environment:
+      - OPENAI_API=${OPENAI_API}
 
   client:
     build:
