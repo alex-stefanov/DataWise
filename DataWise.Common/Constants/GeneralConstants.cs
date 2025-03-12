@@ -1,8 +1,5 @@
 ﻿namespace DataWise.Common.Constants;
 
-/// <summary>
-/// Specifies the general constants.
-/// </summary>
 public static class GeneralConstants
 {
     public const string UserDbSettingsName = "UserDbSettings";
