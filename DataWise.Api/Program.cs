@@ -9,6 +9,7 @@ public class Program
     public async static Task Main(
         string[] args)
     {
+        
         Env.Load();
 
         var builder = WebApplication.CreateBuilder(args);
