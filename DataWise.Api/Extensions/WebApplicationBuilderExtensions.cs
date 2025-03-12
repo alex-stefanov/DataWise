@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OpenAI_API;
+using OPTIONS = DataWise.Common.Options;
+using CONSTANTS = DataWise.Common.Constants;
 using INTERFACES = DataWise.Core.Services.Interfaces;
 using IMPLEMENTATIONS = DataWise.Core.Services.Implementations;
 using RELEATIONAL = DataWise.Data.DbContexts.Releational;
 using R_MODELS = DataWise.Data.DbContexts.Releational.Models;
-using OpenAI_API;
 
 namespace DataWise.Api.Extensions;
 
@@ -54,14 +57,15 @@ public static class WebApplicationBuilderExtensions
     {
         builder.Services.AddSingleton<OpenAIAPI>(sp =>
         {
-            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API") 
+            var apiKey = Environment.GetEnvironmentVariable(CONSTANTS.GeneralConstants.OpenAIApiEnvKey) 
                 ?? throw new Exception("Missing OPENAI_API configuration.");
             return new OpenAIAPI(new APIAuthentication(apiKey));
         });
 
-        builder.Services.AddDbContext<RELEATIONAL.UserDbContext>(options =>
+        builder.Services.AddDbContext<RELEATIONAL.UserDbContext>((sp, options) =>
         {
-            options.UseSqlServer("Server=localhost;Database=DataWiseClient;User Id=SA;Password=Str0ngPa$$w0rd;TrustServerCertificate=True;");
+            var settings = sp.GetRequiredService<IOptions<OPTIONS.UserDbSettings>>().Value;
+            options.UseSqlServer(settings.ConnectionString);
         });
 
         builder.Services.AddIdentity<R_MODELS.WiseClient, IdentityRole<string>>(cfg =>

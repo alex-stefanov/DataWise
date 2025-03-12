@@ -1,5 +1,6 @@
 using DotNetEnv;
 using DataWise.Api.Extensions;
+using CONSTANTS = DataWise.Common.Constants;
 
 namespace DataWise.Api;
 
@@ -35,7 +36,7 @@ public class Program
             .UseCustomHttpsRedirection()
             .UseCustomCors();
 
-        app.UseCors("AllowAll");
+        app.UseCors(CONSTANTS.GeneralConstants.PolicyValue);
 
         app.UseAuthorization();
         app.MapControllers();
