@@ -1,10 +1,11 @@
 ﻿using MongoDB.Driver;
+using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using OPTIONS = DataWise.Common.Options;
+using CONSTANTS = DataWise.Common.Constants;
 using N_RELEATIONAL = DataWise.Data.DbContexts.NonReleational;
 using NR_MODELS = DataWise.Data.DbContexts.NonReleational.Models;
 using NR_REPOSITORIES = DataWise.Data.Repositories.NonReleational;
-using Microsoft.OpenApi.Models;
 
 namespace DataWise.Api.Extensions;
 
@@ -20,8 +21,10 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.Configure<OPTIONS.UserDbSettings>(configuration.GetSection("UserDbSettings"));
-        services.Configure<OPTIONS.KnowledgeNexusDbSettings>(configuration.GetSection("MongoDbSettings"));
+        services.Configure<OPTIONS.UserDbSettings>(
+            configuration.GetSection(CONSTANTS.GeneralConstants.UserDbSettingsName));
+        services.Configure<OPTIONS.KnowledgeNexusDbSettings>(
+            configuration.GetSection(CONSTANTS.GeneralConstants.MongoDbSettingsName));
 
         return services;
     }
@@ -46,14 +49,16 @@ public static class ServiceCollectionExtensions
         {
             var database = sp.GetRequiredService<IMongoDatabase>();
 
-            return new NR_REPOSITORIES.MongoRepository<NR_MODELS.DataStructure, string>(database, "DataStructures");
+            return new NR_REPOSITORIES.MongoRepository<NR_MODELS.DataStructure, string>(
+                database, CONSTANTS.GeneralConstants.DataStructureCollectionName);
         });
 
         services.AddScoped<NR_REPOSITORIES.IMongoRepository<NR_MODELS.Algorithm, string>>(sp =>
         {
             var database = sp.GetRequiredService<IMongoDatabase>();
 
-            return new NR_REPOSITORIES.MongoRepository<NR_MODELS.Algorithm, string>(database, "Algorithms");
+            return new NR_REPOSITORIES.MongoRepository<NR_MODELS.Algorithm, string>(
+                database, CONSTANTS.GeneralConstants.AlgorithmCollectionName);
         });
 
         return services;
@@ -67,7 +72,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll", policyBuilder =>
+            options.AddPolicy(CONSTANTS.GeneralConstants.PolicyValue, policyBuilder =>
             {
                 policyBuilder.AllowAnyOrigin()
                              .AllowAnyMethod()

@@ -18,6 +18,7 @@ public static class ApplicationBuilderExtensions
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
         return app;
     }
 
@@ -28,6 +29,7 @@ public static class ApplicationBuilderExtensions
         this IApplicationBuilder app)
     {
         app.UseExceptionHandler("/error");
+
         return app;
     }
 
@@ -38,6 +40,7 @@ public static class ApplicationBuilderExtensions
         this IApplicationBuilder app)
     {
         app.UseHttpsRedirection();
+
         return app;
     }
 
@@ -48,6 +51,7 @@ public static class ApplicationBuilderExtensions
         this IApplicationBuilder app)
     {
         app.UseCors("AllowAll");
+
         return app;
     }
 }
