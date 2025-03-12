@@ -400,4 +400,4 @@ FodyWeavers.xsd
 # Ignore virtual environment
 venv/
 
-.env 
+DataWise.Api/.env 
