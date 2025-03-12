@@ -1,9 +1,5 @@
 # DataWise – ДатаВайс
 
-## Language Menu
-
-Click on the language below to expand its documentation.
-
 <details>
   <summary id="english"><strong>English 🇬🇧</strong></summary>
 
