@@ -1,4 +1,4 @@
-# DataWise – ДатаВайс
+# DataWise
 
 <details>
   <summary id="english"><strong>English 🇬🇧</strong></summary>
