@@ -20,7 +20,7 @@ public static class WebApplicationExtensions
 
         try
         {
-            var context = services.GetRequiredService<UserDbContext>();
+            var context = services.GetRequiredService<InterviewDbContext>();
             context.Database.Migrate();
         }
         catch (Exception ex)
@@ -30,8 +30,12 @@ public static class WebApplicationExtensions
         }
 
         using var seedScope = app.Services.CreateScope();
-        var seeder = seedScope.ServiceProvider.GetRequiredService<DataSeeder>();
+        var seeder = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.NonReleational.DataSeeder>();
 
         await seeder.SeedAllAsync();
+
+        var seeder1 = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.Releational.DataSeeder>();
+
+        await seeder1.SeedQuestionsAsync("..\\DataWise.Data\\DbContexts\\Releational\\Data\\interview_questions.csv");
     }
 }

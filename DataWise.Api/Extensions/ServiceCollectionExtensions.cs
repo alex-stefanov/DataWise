@@ -3,8 +3,11 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using OPTIONS = DataWise.Common.Options;
 using CONSTANTS = DataWise.Common.Constants;
+using RELEATIONAL = DataWise.Data.DbContexts.Releational;
 using N_RELEATIONAL = DataWise.Data.DbContexts.NonReleational;
+using R_MODELS = DataWise.Data.DbContexts.Releational.Models;
 using NR_MODELS = DataWise.Data.DbContexts.NonReleational.Models;
+using R_REPOSITORIES = DataWise.Data.Repositories.Releational;
 using NR_REPOSITORIES = DataWise.Data.Repositories.NonReleational;
 
 namespace DataWise.Api.Extensions;
@@ -61,6 +64,15 @@ public static class ServiceCollectionExtensions
                 database, CONSTANTS.GeneralConstants.AlgorithmCollectionName);
         });
 
+        services.AddScoped<R_REPOSITORIES.ISQLRepository<R_MODELS.Question, string>,
+            R_REPOSITORIES.SQLRepository<R_MODELS.Question, string>>();
+
+        services.AddScoped<R_REPOSITORIES.ISQLRepository<R_MODELS.ChatSession, string>,
+            R_REPOSITORIES.SQLRepository<R_MODELS.ChatSession, string>>();
+
+        services.AddScoped<R_REPOSITORIES.ISQLRepository<R_MODELS.ChatMessage, string>,
+            R_REPOSITORIES.SQLRepository<R_MODELS.ChatMessage, string>>();
+
         return services;
     }
 
@@ -107,6 +119,8 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddTransient<N_RELEATIONAL.DataSeeder>();
+
+        services.AddTransient<RELEATIONAL.DataSeeder>();
 
         return services;
     }

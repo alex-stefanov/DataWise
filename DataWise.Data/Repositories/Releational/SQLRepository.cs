@@ -11,7 +11,7 @@ namespace DataWise.Data.Repositories.Releational;
 /// <typeparam name="TId">The type of the identifier for the entity.</typeparam>
 /// <param name="dbContext">The database context to be used for CRUD operations.</param>
 public class SQLRepository<TType, TId>(
-    UserDbContext dbContext)
+    InterviewDbContext dbContext)
     : ISQLRepository<TType, TId>
     where TType : class
 {

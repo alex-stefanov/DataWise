@@ -22,7 +22,7 @@ public class Program
             .AddCustomConfiguration(
                 builder.Configuration)
             .AddMongoServices()
-            .AddDataSeeder(); ;
+            .AddDataSeeder();
 
         builder.AddUserServices();
 

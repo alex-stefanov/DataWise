@@ -62,7 +62,7 @@ public static class WebApplicationBuilderExtensions
             return new OpenAIAPI(new APIAuthentication(apiKey));
         });
 
-        builder.Services.AddDbContext<RELEATIONAL.UserDbContext>((sp, options) =>
+        builder.Services.AddDbContext<RELEATIONAL.InterviewDbContext>((sp, options) =>
         {
             var settings = sp.GetRequiredService<IOptions<OPTIONS.UserDbSettings>>().Value;
             options.UseSqlServer(settings.ConnectionString);
@@ -72,7 +72,7 @@ public static class WebApplicationBuilderExtensions
         {
             builder.ConfigureIdentity(cfg);
         })
-        .AddEntityFrameworkStores<RELEATIONAL.UserDbContext>()
+        .AddEntityFrameworkStores<RELEATIONAL.InterviewDbContext>()
         .AddRoles<IdentityRole<string>>()
         .AddSignInManager<SignInManager<R_MODELS.WiseClient>>()
         .AddUserManager<UserManager<R_MODELS.WiseClient>>();
@@ -81,6 +81,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddScoped<INTERFACES.IChartService, IMPLEMENTATIONS.ChartService>();
         builder.Services.AddScoped<INTERFACES.IStructureService, IMPLEMENTATIONS.StructureService>();
         builder.Services.AddScoped<INTERFACES.IUserService, IMPLEMENTATIONS.UserService>();
+        builder.Services.AddScoped<INTERFACES.IInterviewService, IMPLEMENTATIONS.InterviewService>();
 
         return builder.Services;
     }
