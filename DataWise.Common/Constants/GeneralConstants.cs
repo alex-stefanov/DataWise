@@ -1,5 +1,6 @@
 ﻿namespace DataWise.Common.Constants;
 
+//TODO: Add XML comments
 public static class GeneralConstants
 {
     public const string UserDbSettingsName = "UserDbSettings";

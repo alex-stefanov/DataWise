@@ -1,4 +1,6 @@
-﻿namespace DataWise.Api.Extensions;
+﻿using CONSTANTS = DataWise.Common.Constants;
+
+namespace DataWise.Api.Extensions;
 
 /// <summary>
 /// Provides extension methods for configuring the application pipeline.
@@ -50,7 +52,7 @@ public static class ApplicationBuilderExtensions
     public static IApplicationBuilder UseCustomCors(
         this IApplicationBuilder app)
     {
-        app.UseCors("AllowAll");
+        app.UseCors(CONSTANTS.GeneralConstants.PolicyValue);
 
         return app;
     }

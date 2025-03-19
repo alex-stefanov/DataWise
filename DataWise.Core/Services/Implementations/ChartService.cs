@@ -48,7 +48,8 @@ public class ChartService(
         ChartDto request,
         IFormFile file)
     {
-        if (file is null || file.Length == 0)
+        if (file is null 
+            || file.Length == 0)
             throw new ArgumentException("File is required.");
 
         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
