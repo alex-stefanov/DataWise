@@ -27,7 +27,7 @@ public class AlgorithmController(
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(
         [FromRoute]
-            string id)
+        string id)
     {
         if (string.IsNullOrWhiteSpace(id))
             return BadRequest("Algorithm id cannot be null or empty.");
@@ -54,7 +54,7 @@ public class AlgorithmController(
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByName(
         [FromRoute]
-            string name)
+        string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             return BadRequest("Algorithm name cannot be null or empty.");
