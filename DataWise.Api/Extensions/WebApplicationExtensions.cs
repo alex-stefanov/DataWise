@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DataWise.Data.DbContexts.NonReleational;
 using DataWise.Data.DbContexts.Releational;
 
 namespace DataWise.Api.Extensions;

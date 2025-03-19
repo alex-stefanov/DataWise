@@ -55,7 +55,12 @@ public class ChatSession
     public DateTime? EndedAt { get; set; }
 
     /// <summary>
-    /// How many times the user has attempted to answer (optional).
+    /// How many times the user has attempted to answer.
     /// </summary>
     public int AttemptCount { get; set; } = 0;
+
+    /// <summary>
+    /// How many times the user has asked for a hint (optional).
+    /// </summary>
+    public int HintCount { get; set; } = 0;
 }

@@ -82,6 +82,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddScoped<INTERFACES.IStructureService, IMPLEMENTATIONS.StructureService>();
         builder.Services.AddScoped<INTERFACES.IUserService, IMPLEMENTATIONS.UserService>();
         builder.Services.AddScoped<INTERFACES.IInterviewService, IMPLEMENTATIONS.InterviewService>();
+        builder.Services.AddScoped<INTERFACES.IInterviewService, IMPLEMENTATIONS.InterviewService>();
 
         return builder.Services;
     }

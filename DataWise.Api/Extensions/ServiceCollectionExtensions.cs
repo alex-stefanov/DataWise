@@ -12,6 +12,8 @@ using NR_REPOSITORIES = DataWise.Data.Repositories.NonReleational;
 
 namespace DataWise.Api.Extensions;
 
+//TODO: Better services organisation
+
 /// <summary>
 /// Provides extension methods to register application services.
 /// </summary>
