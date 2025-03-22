@@ -35,6 +35,9 @@ public static class WebApplicationExtensions
 
         var seeder1 = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.Releational.DataSeeder>();
 
-        await seeder1.SeedQuestionsAsync("..\\DataWise.Data\\DbContexts\\Releational\\Data\\interview_questions.csv");
+        string basePath = AppContext.BaseDirectory;
+        string filePath = Path.Combine(basePath, "DataWise.Data", "DbContexts", "Releational", "Data", "interview_questions.csv");
+
+        await seeder1.SeedQuestionsAsync(filePath);
     }
 }

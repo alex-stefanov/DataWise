@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataWise.Data.Migrations
 {
     [DbContext(typeof(InterviewDbContext))]
-    [Migration("20250314091138_Initial")]
-    partial class Initial
+    [Migration("20250322153734_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,6 +72,9 @@ namespace DataWise.Data.Migrations
 
                     b.Property<DateTime?>("EndedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("HintCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("QuestionId")
                         .IsRequired()

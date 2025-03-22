@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataWise.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -185,7 +185,8 @@ namespace DataWise.Data.Migrations
                     QuestionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AttemptCount = table.Column<int>(type: "int", nullable: false)
+                    AttemptCount = table.Column<int>(type: "int", nullable: false),
+                    HintCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
