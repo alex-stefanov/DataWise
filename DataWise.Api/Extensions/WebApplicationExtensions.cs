@@ -22,7 +22,7 @@ public static class WebApplicationExtensions
         try
         {
             var context = services.GetRequiredService<InterviewDbContext>();
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
         }
         catch (Exception ex)
         {
