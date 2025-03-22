@@ -81,23 +81,20 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Registers a CORS policy named "AllowAll".
     /// </summary>
-    public static IServiceCollection AddCustomCors(
-        this IServiceCollection services)
+    public static IServiceCollection AddCustomCors(this IServiceCollection services)
     {
         services.AddCors(options =>
         {
             options.AddPolicy(CONSTANTS.GeneralConstants.PolicyValue, policyBuilder =>
             {
-                policyBuilder.WithOrigins("https://datawise.techlab.cloud", "http://localhost:4200")
-                                        .AllowAnyMethod()
-                                        .AllowAnyHeader()
-                                        .AllowCredentials();
+                policyBuilder.AllowAnyOrigin()
+                             .AllowAnyMethod()
+                             .AllowAnyHeader();
             });
         });
 
         return services;
     }
-
 
     /// <summary>
     /// Registers Swagger/OpenAPI services.

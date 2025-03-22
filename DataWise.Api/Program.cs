@@ -36,7 +36,6 @@ public class Program
             .UseCustomHttpsRedirection()
             .UseCustomCors();
 
-        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 
