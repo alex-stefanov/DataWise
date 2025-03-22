@@ -14,7 +14,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services
-            .AddCustomCors(builder.Environment)
+            .AddCustomCors()
             .AddCustomSwagger()
             .AddControllers();
 
@@ -36,8 +36,7 @@ public class Program
             .UseCustomHttpsRedirection()
             .UseCustomCors();
 
-        app.UseCors(CONSTANTS.GeneralConstants.PolicyValue);
-
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 

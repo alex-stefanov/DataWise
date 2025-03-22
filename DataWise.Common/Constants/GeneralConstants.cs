@@ -11,7 +11,7 @@ public static class GeneralConstants
 
     public const string AlgorithmCollectionName = "Algorithms";
 
-    public const string PolicyValue = "AllowAll";
+    public const string PolicyValue = "CorsPolicy";
 
     public const string OpenAIApiEnvKey = "OPENAI_API";
 }
