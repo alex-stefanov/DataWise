@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DataWise.Data.DbContexts.Releational;
+using SharpCompress.Common;
+using System;
 
 namespace DataWise.Api.Extensions;
 
@@ -35,17 +37,18 @@ public static class WebApplicationExtensions
 
         var seeder1 = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.Releational.DataSeeder>();
 
-        string projectRoot = Directory.GetParent(AppContext.BaseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName
-                             ?? throw new Exception("Project root not found");
+        string filePath;
 
-        string filePath = Path.Combine(projectRoot, "DataWise.Data", "DbContexts", "Releational", "Data", "interview_questions.csv");
-
-        Console.WriteLine($"Loading file from: {filePath}");
-
-        if (!File.Exists(filePath))
+        if (app.Environment.IsDevelopment())
         {
-            Console.WriteLine($"File not found: {filePath}");
-            return; 
+            string projectRoot = Directory.GetParent(AppContext.BaseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName
+                ?? throw new Exception("Project root not found");
+
+            filePath = Path.Combine(projectRoot, "DataWise.Data", "DbContexts", "Releational", "Data", "interview_questions.csv");
+        }
+        else
+        {
+            filePath = Path.Combine("/app/DataWise/DataWise.Data/DbContexts/Releational/Data", "interview_questions.csv");
         }
 
         await seeder1.SeedQuestionsAsync(filePath);
