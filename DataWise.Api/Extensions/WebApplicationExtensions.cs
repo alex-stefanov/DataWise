@@ -35,8 +35,18 @@ public static class WebApplicationExtensions
 
         var seeder1 = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.Releational.DataSeeder>();
 
-        string basePath = AppContext.BaseDirectory;
-        string filePath = Path.Combine(basePath, "DataWise.Data", "DbContexts", "Releational", "Data", "interview_questions.csv");
+        string projectRoot = Directory.GetParent(AppContext.BaseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName
+                             ?? throw new Exception("Project root not found");
+
+        string filePath = Path.Combine(projectRoot, "DataWise.Data", "DbContexts", "Releational", "Data", "interview_questions.csv");
+
+        Console.WriteLine($"Loading file from: {filePath}");
+
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine($"File not found: {filePath}");
+            return; 
+        }
 
         await seeder1.SeedQuestionsAsync(filePath);
     }

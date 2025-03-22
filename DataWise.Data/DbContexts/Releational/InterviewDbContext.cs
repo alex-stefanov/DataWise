@@ -13,7 +13,7 @@ public class InterviewDbContext
     : IdentityDbContext<MODELS.WiseClient, IdentityRole<string>, string>
 {
     /// <summary>
-    /// Gets or sets the DbSet of <see cref="WiseClient"/> entities (Identity users).
+    /// Gets or sets the DbSet of <see cref="MODELS.WiseClient"/> entities (Identity users).
     /// </summary>
     public override DbSet<MODELS.WiseClient> Users { get; set; } = null!;
 
