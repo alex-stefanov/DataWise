@@ -60,6 +60,8 @@ services:
     restart: always
     ports:
       - 2001:8080
+    volumes:
+      - api_data:/app/data
     environment:
       - OPENAI_API=${OPENAI_API}
 
@@ -79,6 +81,7 @@ volumes:
   mongodb:
   ai_models:
   sql-server:
+  api_data:
 
 networks:
   default:

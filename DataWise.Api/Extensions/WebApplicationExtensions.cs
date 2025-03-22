@@ -48,9 +48,9 @@ public static class WebApplicationExtensions
         }
         else
         {
-            filePath = Path.Combine("/app/DataWise/DataWise.Data/DbContexts/Releational/Data", "interview_questions.csv");
+            filePath = Path.Combine("/app/data");
         }
 
-        //await seeder1.SeedQuestionsAsync(filePath);
+        await seeder1.SeedQuestionsAsync(filePath);
     }
 }
