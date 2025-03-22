@@ -14,7 +14,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services
-            .AddCustomCors()
+            .AddCors()
             .AddCustomSwagger()
             .AddControllers();
 

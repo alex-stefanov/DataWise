@@ -79,24 +79,6 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers a CORS policy named "AllowAll".
-    /// </summary>
-    public static IServiceCollection AddCustomCors(this IServiceCollection services)
-    {
-        services.AddCors(options =>
-        {
-            options.AddPolicy(CONSTANTS.GeneralConstants.PolicyValue, policyBuilder =>
-            {
-                policyBuilder.AllowAnyOrigin()
-                             .AllowAnyMethod()
-                             .AllowAnyHeader();
-            });
-        });
-
-        return services;
-    }
-
-    /// <summary>
     /// Registers Swagger/OpenAPI services.
     /// </summary>
     public static IServiceCollection AddCustomSwagger(

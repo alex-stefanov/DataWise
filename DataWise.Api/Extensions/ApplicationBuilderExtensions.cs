@@ -52,7 +52,7 @@ public static class ApplicationBuilderExtensions
     public static IApplicationBuilder UseCustomCors(
         this IApplicationBuilder app)
     {
-        app.UseCors(CONSTANTS.GeneralConstants.PolicyValue);
+        app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://datawise.techlab.cloud", "http://localhost:4200"));
 
         return app;
     }
