@@ -18,13 +18,13 @@ public class Program
             .AddCustomSwagger()
             .AddControllers();
 
+        builder.AddUserServices();
+
         builder.Services
             .AddCustomConfiguration(
                 builder.Configuration)
             .AddMongoServices()
             .AddDataSeeder();
-
-        builder.AddUserServices();
 
         var app = builder.Build();
 
