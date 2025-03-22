@@ -8,8 +8,6 @@ using OpenAI_API;
 
 namespace DataWise.Core.Services.Implementations;
 
-//TODO: Better prompt for giving correctness
-
 /// <summary>
 /// Concrete implementation of the IInterviewService for managing chat sessions, answers, and hints.
 /// </summary>
@@ -22,7 +20,7 @@ public class InterviewService(
     : IInterviewService
 {
     /// <inheritdoc />
-    public async Task<ChatSession> StartChatAsync(
+    public async Task<string> StartChatAsync(
         string userId,
         string category,
         string difficulty)
@@ -63,11 +61,11 @@ public class InterviewService(
         await messageRepository
             .AddAsync(message);
 
-        return session;
+        return session.Id;
     }
 
     /// <inheritdoc />
-    public async Task<ChatMessage> AnswerAsync(
+    public async Task<string> AnswerAsync(
         string sessionId,
         string userAnswer)
     {
@@ -133,6 +131,8 @@ public class InterviewService(
 
         ChatMessage systemMsg;
 
+        session.AttemptCount++;
+
         if (rating >= 10)
         {
             systemMsg = new ChatMessage
@@ -160,18 +160,16 @@ public class InterviewService(
                 Content = feedback,
                 CreatedAt = DateTime.UtcNow
             };
-
-            session.AttemptCount++;
         }
 
         await messageRepository.AddAsync(systemMsg);
         sessionRepository.Update(session);
 
-        return systemMsg;
+        return session.Id;
     }
 
     /// <inheritdoc />
-    public async Task<ChatMessage> HintAsync(
+    public async Task<string> HintAsync(
         string sessionId)
     {
         var session = await sessionRepository.GetByIdAsync(sessionId)
@@ -217,7 +215,7 @@ public class InterviewService(
 
         await messageRepository.AddAsync(hintMsg);
 
-        return hintMsg;
+        return session.Id;
     }
 
     /// <inheritdoc />
@@ -297,7 +295,7 @@ public class InterviewService(
             _ => Math.Max(0.2, 0.5 / session.HintCount)
         };
 
-        int finalScore = (int)Math.Max(1, Math.Round(baseScore * categoryMultiplier * attemptsMultiplier * correctnessMultiplier * hintPenalty));
+        int finalScore = (int)Math.Max(1, Math.Floor(baseScore * categoryMultiplier * attemptsMultiplier * correctnessMultiplier * hintPenalty));
 
         return finalScore;
     }

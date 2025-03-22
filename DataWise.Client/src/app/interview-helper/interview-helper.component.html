@@ -1,0 +1,29 @@
+<div *ngIf="!isLoggedIn" class="login-container">
+    <div class="login-popup">
+      <p>Please log in first.</p>
+    </div>
+  </div>
+  
+  <div *ngIf="isLoggedIn">
+    <div
+      id="chatui"
+      ejs-chatui
+      [user]="currentUserModel"
+      (messageSend)="onMessageSend($event)"
+    >
+      <e-messages>
+        <ng-container *ngFor="let msg of messages">
+          <e-message
+            [text]="msg.content"
+            [author]="getUserModel(msg.sender)"
+          ></e-message>
+        </ng-container>
+      </e-messages>
+    </div>
+    <div class="chat-input">
+      <button class="hint-button" (click)="getHint()">
+        <i class="fas fa-lightbulb"></i>
+      </button>
+    </div>
+  </div>
+  

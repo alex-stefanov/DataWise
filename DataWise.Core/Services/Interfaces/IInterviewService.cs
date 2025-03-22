@@ -13,8 +13,8 @@ public interface IInterviewService
     /// <param name="userId">The user initiating the chat.</param>
     /// <param name="category">The selected category.</param>
     /// <param name="difficulty">The selected difficulty.</param>
-    /// <returns>The newly created <see cref="ChatSession"/> with its initial question message.</returns>
-    Task<ChatSession> StartChatAsync(
+    /// <returns>The newly created sessionId.</returns>
+    Task<string> StartChatAsync(
         string userId,
         string category,
         string difficulty);
@@ -24,8 +24,8 @@ public interface IInterviewService
     /// </summary>
     /// <param name="sessionId">The ID of the chat session.</param>
     /// <param name="userAnswer">The user's answer.</param>
-    /// <returns>A <see cref="ChatMessage"/> representing the system's response (feedback, correctness, etc.).</returns>
-    Task<ChatMessage> AnswerAsync(
+    /// <returns>The sessionId.</returns>
+    Task<string> AnswerAsync(
         string sessionId,
         string userAnswer);
 
@@ -33,8 +33,8 @@ public interface IInterviewService
     /// Requests a hint for the question in the specified chat session.
     /// </summary>
     /// <param name="sessionId">The ID of the chat session.</param>
-    /// <returns>A <see cref="ChatMessage"/> containing the hint.</returns>
-    Task<ChatMessage> HintAsync(
+    /// <returns>The sessionId.</returns>
+    Task<string> HintAsync(
         string sessionId);
 
     /// <summary>

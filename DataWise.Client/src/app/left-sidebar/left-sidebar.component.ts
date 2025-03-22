@@ -34,6 +34,11 @@ export class LeftSidebarComponent {
       icon: 'fal fa-cog',
       label: 'Profile',
     },
+    {
+      routeLink: 'interview-helper',
+      icon: 'fal fa-cog',
+      label: 'Interview Helper',
+    }
   ];
 
   toggleCollapse(): void {

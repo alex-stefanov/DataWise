@@ -4,6 +4,7 @@ import { VisionaryVaultComponent } from './visionary-vault/visionary-vault.compo
 import { SolutionBeaconComponent } from './solution-beacon/solution-beacon.component';
 import { ProfileComponent } from './profile/profile.component';
 import { StructureCardComponent } from './structure-card/structure-card.component';
+import { InterviewHelperComponent } from './interview-helper/interview-helper.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'knowledge-nexus', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'visionary-vault', component: VisionaryVaultComponent },
   { path: 'solution-beacon', component: SolutionBeaconComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'structure-card', component: StructureCardComponent }
+  { path: 'structure-card', component: StructureCardComponent },
+  { path: 'interview-helper', component: InterviewHelperComponent },
 ];

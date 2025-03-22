@@ -1,91 +1,62 @@
 <div *ngIf="isLoggedIn; else notLoggedIn">
   <div class="profile-container">
-    <h2 class="page-title">
-      Account
-    </h2>
+    <h2 class="page-title">Account</h2>
 
     <form (ngSubmit)="updateProfile()">
       <div>
-        <label for="email">
-          Email:
-        </label>
+        <label for="email">Email:</label>
         <input id="email" type="email" [(ngModel)]="user.email" name="email" disabled />
       </div>
 
       <div>
-        <label for="firstName">
-          First Name:
-        </label>
+        <label for="firstName">First Name:</label>
         <input id="firstName" type="text" [(ngModel)]="user.firstName" name="firstName" required />
       </div>
 
       <div>
-        <label for="lastName">
-          Last Name:
-        </label>
+        <label for="lastName">Last Name:</label>
         <input id="lastName" type="text" [(ngModel)]="user.lastName" name="lastName" required />
       </div>
 
       <div>
-        <label>
-          Points:
-        </label>
-
-        <span>
-          {{ user.points }}
-        </span>
+        <label>Points:</label>
+        <span>{{ user.points }}</span>
       </div>
 
-      <button type="submit">
-        Update Profile
-      </button>
+      <button type="submit">Update Profile</button>
     </form>
 
     <hr />
 
-    <button (click)="logout()">
-      Logout
-    </button>
+    <button (click)="logout()">Logout</button>
   </div>
 </div>
 
 <ng-template #notLoggedIn>
   <div class="profile-container">
-    <h2 *ngIf="isLoginMode; else registerHeading">
-      Login
-    </h2>
+    <h2 *ngIf="isLoginMode; else registerHeading">Login</h2>
 
     <ng-template #registerHeading>
-      <h2>
-        Register
-      </h2>
+      <h2>Register</h2>
     </ng-template>
 
     <form *ngIf="isLoginMode; else registerForm" (ngSubmit)="login()">
       <div>
-        <label for="loginEmail">
-          Email:
-        </label>
+        <label for="loginEmail">Email:</label>
         <input id="loginEmail" type="email" [(ngModel)]="loginEmail" name="loginEmail" required />
       </div>
 
       <div>
-        <label for="loginPassword">
-          Password:
-        </label>
+        <label for="loginPassword">Password:</label>
         <input id="loginPassword" type="password" [(ngModel)]="loginPassword" name="loginPassword" required />
       </div>
 
       <div>
-        <label for="rememberMe">
-          Remember me
-        </label>
+        <label for="rememberMe">Remember me</label>
         <input id="rememberMe" type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
       </div>
 
-      <button type="submit">
-        Login
-      </button>
+      <button type="submit">Login</button>
 
       <div *ngIf="loginError" class="error">
         {{ loginError }}
@@ -95,36 +66,26 @@
     <ng-template #registerForm>
       <form (ngSubmit)="register()">
         <div>
-          <label for="regEmail">
-            Email:
-          </label>
+          <label for="regEmail">Email:</label>
           <input id="regEmail" type="email" [(ngModel)]="regEmail" name="regEmail" required />
         </div>
 
         <div>
-          <label for="regPassword">
-            Password:
-          </label>
+          <label for="regPassword">Password:</label>
           <input id="regPassword" type="password" [(ngModel)]="regPassword" name="regPassword" required />
         </div>
 
         <div>
-          <label for="regFirstName">
-            First Name:
-          </label>
+          <label for="regFirstName">First Name:</label>
           <input id="regFirstName" type="text" [(ngModel)]="regFirstName" name="regFirstName" required />
         </div>
 
         <div>
-          <label for="regLastName">
-            Last Name:
-          </label>
+          <label for="regLastName">Last Name:</label>
           <input id="regLastName" type="text" [(ngModel)]="regLastName" name="regLastName" required />
         </div>
 
-        <button type="submit">
-          Register
-        </button>
+        <button type="submit">Register</button>
 
         <div *ngIf="regError" class="error">
           {{ regError }}

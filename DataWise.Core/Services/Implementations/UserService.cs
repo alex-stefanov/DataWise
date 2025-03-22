@@ -17,11 +17,12 @@ public class UserService(
     : IUserService
 {
     /// <inheritdoc />
-    public async Task<(bool Succeeded, string Message, IEnumerable<string>? Errors)> RegisterAsync(
+    public async Task<(bool Succeeded, string UserId, string Message, IEnumerable<string>? Errors)> RegisterAsync(
         RegisterDto model)
     {
         var user = new WiseClient
         {
+            Id = Guid.NewGuid().ToString(),
             UserName = model.Email,
             Email = model.Email,
             FirstName = model.FirstName,
@@ -39,28 +40,31 @@ public class UserService(
                 await signInManager
                     .SignInAsync(user, isPersistent: false);
 
-                return (true, "User registered successfully.", null);
+                return (true, user.Id, "User registered successfully.", null);
             }
 
-            return (false, "User registration failed.", result.Errors?.Select(e => e.Description));
+            return (false, user.Id, "User registration failed.", result.Errors?.Select(e => e.Description));
         }
         catch (Exception ex)
         {
-            return (false, $"An error occurred: {ex.Message}", null);
+            return (false, user.Id, $"An error occurred: {ex.Message}", null);
         }
     }
 
     /// <inheritdoc />
-    public async Task<(bool Succeeded, string Message)> LoginAsync(
+    public async Task<(bool Succeeded, string UserId, string Message)> LoginAsync(
         LoginDto model)
     {
         var result = await signInManager
             .PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-        if (result.Succeeded)
-            return (true, "User logged in successfully.");
+        var user = await userManager
+            .FindByEmailAsync(model.Email);
 
-        return (false, "Invalid login attempt.");
+        if (result.Succeeded)
+            return (true, user!.Id, "User logged in successfully.");
+
+        return (false, user!.Id, "Invalid login attempt.");
     }
 
     /// <inheritdoc />
@@ -71,15 +75,12 @@ public class UserService(
 
     /// <inheritdoc />
     public async Task<WiseClient?> GetProfileAsync(
-        ClaimsPrincipal user)
+        string userId)
     {
-        var userId = userManager
-            .GetUserId(user);
+        var user = await userManager
+            .FindByIdAsync(userId);
 
-        if (userId is null)
-            return null;
-
-        return await userManager.FindByIdAsync(userId);
+        return user;
     }
 
     /// <inheritdoc />

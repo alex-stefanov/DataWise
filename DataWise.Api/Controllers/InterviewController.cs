@@ -26,11 +26,11 @@ public class InterviewController(
     /// <response code="400">Invalid request. UserId, Category, and Difficulty are required.</response>
     /// <response code="500">An unexpected error occurred.</response>
     [HttpPost("start")]
-    [ProducesResponseType(typeof(ChatSession), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)] 
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Start(
-        [FromForm]
+        [FromBody]
         DTOS.StartSessionDto request)
     {
         if (request is null
@@ -43,13 +43,13 @@ public class InterviewController(
 
         try
         {
-            var session = await interviewService
+            var sessionId = await interviewService
                 .StartChatAsync(
                     userId: request.UserId,
                     category: request.Category,
                     difficulty: request.Difficulty);
 
-            return Ok(session);
+            return Ok(sessionId);
         }
         catch (InvalidOperationException ex)
         {
@@ -70,7 +70,7 @@ public class InterviewController(
     /// <response code="400">Invalid request. SessionId and UserAnswer are required.</response>
     /// <response code="500">An unexpected error occurred.</response>
     [HttpPost("answer")]
-    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)] 
     [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
     public async Task<IActionResult> Answer(
@@ -86,8 +86,10 @@ public class InterviewController(
 
         try
         {
-            var feedback = await interviewService.AnswerAsync(request.SessionId, request.UserAnswer);
-            return Ok(feedback);
+            var sessionId = await interviewService.
+                AnswerAsync(request.SessionId, request.UserAnswer);
+
+            return Ok(sessionId);
         }
         catch (InvalidOperationException ex)
         {
@@ -108,7 +110,7 @@ public class InterviewController(
     /// <response code="400">Invalid request. SessionId is required.</response>
     /// <response code="500">An unexpected error occurred.</response>
     [HttpPost("hint")]
-    [ProducesResponseType(typeof(ChatMessage), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)] 
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Hint(
@@ -123,8 +125,10 @@ public class InterviewController(
 
         try
         {
-            var hint = await interviewService.HintAsync(request.SessionId);
-            return Ok(hint);
+            var sessionId = await interviewService
+                .HintAsync(request.SessionId);
+
+            return Ok(sessionId);
         }
         catch (InvalidOperationException ex)
         {
@@ -159,7 +163,9 @@ public class InterviewController(
 
         try
         {
-            var history = await interviewService.GetChatHistoryAsync(sessionId);
+            var history = await interviewService
+                .GetChatHistoryAsync(sessionId);
+
             return Ok(history);
         }
         catch (Exception ex)

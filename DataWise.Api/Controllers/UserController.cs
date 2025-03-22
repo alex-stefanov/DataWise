@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataWise.Common.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using DTOS = DataWise.Common.DTOs;
 using INTERAFCES = DataWise.Core.Services.Interfaces;
 
@@ -29,11 +30,11 @@ public class UserController (
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var (succeeded, message, errors) = await userService
+        var (succeeded, userId, message, errors) = await userService
             .RegisterAsync(model);
 
         if (succeeded)
-            return Ok(new { message });
+            return Ok(new { message, userId });
 
         return BadRequest(new { message, errors });
     }
@@ -53,11 +54,11 @@ public class UserController (
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var (succeeded, message) = await userService
+        var (succeeded, userId, message) = await userService
             .LoginAsync(model);
 
         if (succeeded)
-            return Ok(new { message });
+            return Ok(new { message, userId });
 
         return Unauthorized(new { message });
     }
@@ -80,20 +81,23 @@ public class UserController (
     /// Retrieves the current user's profile.
     /// </summary>
     /// <returns>The user's profile details.</returns>
-    [HttpGet("profile")]
+    [HttpPost("profile")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Profile()
+    public async Task<IActionResult> Profile(
+        [FromBody]
+        FetchProfileDto request)
     {
         var user = await userService
-            .GetProfileAsync(User);
+            .GetProfileAsync(request.UserId);
 
         if (user is null)
             return Unauthorized(new { message = "User is not authenticated." });
 
         return Ok(new
         {
+            user.Id,
             user.Email,
             user.FirstName,
             user.LastName,

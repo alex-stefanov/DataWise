@@ -14,6 +14,7 @@ import { environment } from '../../environments/environment';
 
 export class ProfileComponent implements OnInit {
   user = {
+    id: '',
     email: '',
     firstName: '',
     lastName: '',
@@ -37,26 +38,32 @@ export class ProfileComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-      this.isLoggedIn = true;
+    const userId = sessionStorage.getItem('userId');
+    if (userId) {
+      this.user.id = userId;
+      this.fetchUserProfile();
     }
   }
 
-  updateProfile() {
+  fetchUserProfile() {
+    const userId = sessionStorage.getItem('userId');
+
+    const payload = {
+      userId: userId
+    };
+
     const url = `${environment.apiUrl}/api/user/profile`;
-    this.http.put<any>(url, {
-      email: this.user.email,
-      firstName: this.user.firstName,
-      lastName: this.user.lastName
-    }).subscribe(
+
+    this.http.post<any>(url, payload).subscribe(
       data => {
-        console.log('Profile updated successfully', data);
-        localStorage.setItem('user', JSON.stringify(this.user));
+        this.user.email = data.email;
+        this.user.firstName = data.firstName;
+        this.user.lastName = data.lastName;
+        this.user.points = data.points;
+        this.isLoggedIn = true;
       },
       error => {
-        console.error('Error updating profile', error);
+        console.error('Error fetching profile', error);
       }
     );
   }
@@ -71,16 +78,12 @@ export class ProfileComponent implements OnInit {
     const url = `${environment.apiUrl}/api/user/login`;
     this.http.post<any>(url, payload).subscribe(
       data => {
-        console.log('Logged in successfully', data);
         this.loginError = '';
+        this.user.id = data.userId;
+        sessionStorage.setItem('userId', this.user.id);
+        this.fetchUserProfile(); 
+
         this.isLoggedIn = true;
-        this.user.email = this.loginEmail;
-        if (data.user) {
-          this.user.firstName = data.user.firstName;
-          this.user.lastName = data.user.lastName;
-          this.user.points = data.user.points;
-        }
-        localStorage.setItem('user', JSON.stringify(this.user));
         this.loginEmail = '';
         this.loginPassword = '';
       },
@@ -102,14 +105,13 @@ export class ProfileComponent implements OnInit {
     const url = `${environment.apiUrl}/api/user/register`;
     this.http.post<any>(url, payload).subscribe(
       data => {
-        console.log('Registered successfully', data);
         this.regError = '';
+        this.user.id = data.userId;
+
+        sessionStorage.setItem('userId', this.user.id);
+        this.fetchUserProfile();
+
         this.isLoggedIn = true;
-        this.user.email = this.regEmail;
-        this.user.firstName = this.regFirstName;
-        this.user.lastName = this.regLastName;
-        this.user.points = 0;
-        localStorage.setItem('user', JSON.stringify(this.user));
         this.regEmail = '';
         this.regPassword = '';
         this.regFirstName = '';
@@ -126,12 +128,29 @@ export class ProfileComponent implements OnInit {
     const url = `${environment.apiUrl}/api/user/logout`;
     this.http.post<any>(url, {}).subscribe(
       data => {
-        console.log('Logged out successfully', data);
+        console.log('Logged out successfully', data.message);
         this.isLoggedIn = false;
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('userId');
+        this.user = { id: '', email: '', firstName: '', lastName: '', points: 0 };
       },
       error => {
         console.error('Error during logout', error);
+      }
+    );
+  }
+
+  updateProfile() {
+    const url = `${environment.apiUrl}/api/user/profile`;
+    this.http.put<any>(url, {
+      email: this.user.email,
+      firstName: this.user.firstName,
+      lastName: this.user.lastName
+    }).subscribe(
+      data => {
+        console.log('Profile updated successfully', data.message);
+      },
+      error => {
+        console.error('Error updating profile', error);
       }
     );
   }

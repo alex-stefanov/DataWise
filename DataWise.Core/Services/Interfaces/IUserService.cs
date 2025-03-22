@@ -16,7 +16,7 @@ public interface IUserService
     /// <returns>
     /// A tuple containing a flag indicating success, a message, and any error messages if present.
     /// </returns>
-    Task<(bool Succeeded, string Message, IEnumerable<string>? Errors)> RegisterAsync(
+    Task<(bool Succeeded, string UserId, string Message, IEnumerable<string>? Errors)> RegisterAsync(
         RegisterDto model);
 
     /// <summary>
@@ -26,7 +26,7 @@ public interface IUserService
     /// <returns>
     /// A tuple containing a flag indicating success and a message.
     /// </returns>
-    Task<(bool Succeeded, string Message)> LoginAsync(
+    Task<(bool Succeeded, string UserId, string Message)> LoginAsync(
         LoginDto model);
 
     /// <summary>
@@ -37,10 +37,10 @@ public interface IUserService
     /// <summary>
     /// Retrieves the current user's profile.
     /// </summary>
-    /// <param name="user">The current user's claims principal.</param>
+    /// <param name="userId">The current user's id.</param>
     /// <returns>The user if found; otherwise, null.</returns>
     Task<WiseClient?> GetProfileAsync(
-        ClaimsPrincipal user);
+        string userId);
 
     /// <summary>
     /// Updates the current user's profile.
