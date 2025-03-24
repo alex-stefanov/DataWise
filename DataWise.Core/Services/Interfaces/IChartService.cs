@@ -1,5 +1,5 @@
-﻿using DataWise.Common.DTOs;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using DTOS = DataWise.Common.DTOs;
 
 namespace DataWise.Core.Services.Interfaces;
 
@@ -23,6 +23,6 @@ public interface IChartService
     /// <param name="file">The CSV file.</param>
     /// <returns>The generated chart image as a byte array.</returns>
     Task<byte[]> GenerateChartAsync(
-        ChartDto request,
+        DTOS.ChartDto request,
         IFormFile file);
 }

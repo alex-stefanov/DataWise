@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using INTERFACES = DataWise.Core.Services.Interfaces;
-using MODELS = DataWise.Data.DbContexts.NonReleational.Models;
+using MODELS = DataWise.Data.DbContexts.NonRelational.Models;
 
 namespace DataWise.Api.Controllers;
 

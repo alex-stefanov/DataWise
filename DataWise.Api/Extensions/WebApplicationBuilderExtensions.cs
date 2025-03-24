@@ -1,13 +1,10 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using OpenAI_API;
-using OPTIONS = DataWise.Common.Options;
 using CONSTANTS = DataWise.Common.Constants;
 using INTERFACES = DataWise.Core.Services.Interfaces;
 using IMPLEMENTATIONS = DataWise.Core.Services.Implementations;
-using RELEATIONAL = DataWise.Data.DbContexts.Releational;
-using R_MODELS = DataWise.Data.DbContexts.Releational.Models;
+using RELATIONAL = DataWise.Data.DbContexts.Relational;
+using R_MODELS = DataWise.Data.DbContexts.Relational.Models;
 
 namespace DataWise.Api.Extensions;
 
@@ -50,39 +47,51 @@ public static class WebApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Registers SQL Server context and ASP.NET Core Identity services.
+    /// Registers custom services.
     /// </summary>
-    public static IServiceCollection AddUserServices(
+    public static WebApplicationBuilder AddUserServices(
         this WebApplicationBuilder builder)
     {
-        builder.Services.AddSingleton<OpenAIAPI>(sp =>
-        {
-            var apiKey = Environment.GetEnvironmentVariable(CONSTANTS.GeneralConstants.OpenAIApiEnvKey) 
-                ?? throw new Exception("Missing OPENAI_API configuration.");
-            return new OpenAIAPI(new APIAuthentication(apiKey));
-        });
-
-        builder.Services.AddDbContext<RELEATIONAL.InterviewDbContext>((sp, options) =>
-        {
-            var settings = sp.GetRequiredService<IOptions<OPTIONS.UserDbSettings>>().Value;
-            options.UseSqlServer(settings.ConnectionString);
-        });
-
-        builder.Services.AddIdentity<R_MODELS.WiseClient, IdentityRole<string>>(cfg =>
-        {
-            builder.ConfigureIdentity(cfg);
-        })
-        .AddEntityFrameworkStores<RELEATIONAL.InterviewDbContext>()
-        .AddRoles<IdentityRole<string>>()
-        .AddSignInManager<SignInManager<R_MODELS.WiseClient>>()
-        .AddUserManager<UserManager<R_MODELS.WiseClient>>();
-
         builder.Services.AddScoped<INTERFACES.IAlgorithmService, IMPLEMENTATIONS.AlgorithmService>();
         builder.Services.AddScoped<INTERFACES.IChartService, IMPLEMENTATIONS.ChartService>();
         builder.Services.AddScoped<INTERFACES.IStructureService, IMPLEMENTATIONS.StructureService>();
         builder.Services.AddScoped<INTERFACES.IUserService, IMPLEMENTATIONS.UserService>();
         builder.Services.AddScoped<INTERFACES.IInterviewService, IMPLEMENTATIONS.InterviewService>();
 
-        return builder.Services;
+        return builder;
+    }
+
+    /// <summary>
+    /// Configures custom identity.
+    /// </summary>
+    public static WebApplicationBuilder AddIdentityAndRoles(
+        this WebApplicationBuilder builder)
+    {
+        builder.Services.AddIdentity<R_MODELS.WiseClient, IdentityRole<string>>(cfg =>
+        {
+            builder.ConfigureIdentity(cfg);
+        })
+        .AddEntityFrameworkStores<RELATIONAL.InterviewDbContext>()
+        .AddRoles<IdentityRole<string>>()
+        .AddSignInManager<SignInManager<R_MODELS.WiseClient>>()
+        .AddUserManager<UserManager<R_MODELS.WiseClient>>();
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds OpenAI API services.
+    /// </summary>
+    public static WebApplicationBuilder AddOpenAI(
+        this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<OpenAIAPI>(sp =>
+        {
+            var apiKey = Environment.GetEnvironmentVariable(CONSTANTS.GeneralConstants.OpenAIApiEnvKey)
+                ?? throw new Exception("Missing OPENAI_API configuration.");
+            return new OpenAIAPI(new APIAuthentication(apiKey));
+        });
+
+        return builder;
     }
 }

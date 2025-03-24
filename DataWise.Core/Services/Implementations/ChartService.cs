@@ -1,14 +1,14 @@
 ﻿using System.Globalization;
-using CsvHelper;
-using DataWise.Common.Constants;
-using DataWise.Common.DTOs;
-using DataWise.Common.Helpers;
-using DataWise.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using CsvHelper;
 using OpenAI_API;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using CONSTANTS = DataWise.Common.Constants;
+using DTOS = DataWise.Common.DTOs;
+using HELPERS = DataWise.Common.Helpers;
+using INTERFACES = DataWise.Core.Services.Interfaces;
 
 namespace DataWise.Core.Services.Implementations;
 
@@ -17,13 +17,13 @@ namespace DataWise.Core.Services.Implementations;
 /// </summary>
 public class ChartService(
     OpenAIAPI openAIAPI)
-    : IChartService
+    : INTERFACES.IChartService
 {
     /// <inheritdoc />
     public async Task<string[]> ExtractColumnsAsync(
         IFormFile file)
     {
-        if (file is null 
+        if (file is null
             || file.Length == 0)
             throw new ArgumentException("File is required.");
 
@@ -36,7 +36,7 @@ public class ChartService(
         using var reader = new StreamReader(stream);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
-        if (!await csv.ReadAsync() 
+        if (!await csv.ReadAsync()
             || !csv.ReadHeader())
             throw new Exception("CSV file is missing a header.");
 
@@ -45,10 +45,10 @@ public class ChartService(
 
     /// <inheritdoc />
     public async Task<byte[]> GenerateChartAsync(
-        ChartDto request,
+        DTOS.ChartDto request,
         IFormFile file)
     {
-        if (file is null 
+        if (file is null
             || file.Length == 0)
             throw new ArgumentException("File is required.");
 
@@ -56,9 +56,9 @@ public class ChartService(
         if (extension != ".csv")
             throw new NotSupportedException("Only CSV files are currently supported.");
 
-        if (request.ChartType != ChartType.Pie &&
-            request.ChartType != ChartType.Line &&
-            request.ChartType != ChartType.Bar)
+        if (request.ChartType != CONSTANTS.ChartType.Pie &&
+            request.ChartType != CONSTANTS.ChartType.Line &&
+            request.ChartType != CONSTANTS.ChartType.Bar)
             throw new NotSupportedException("Unsupported chart type.");
 
         var records = new List<Dictionary<string, string>>();
@@ -79,7 +79,7 @@ public class ChartService(
             records.Add(record);
         }
 
-        bool isNumeric = await ValidationHelper.IsColumnNumericAsync(
+        bool isNumeric = await HELPERS.ValidationHelper.IsColumnNumericAsync(
             records,
             request.ValueColumn,
             openAIAPI);
@@ -89,7 +89,7 @@ public class ChartService(
             throw new Exception($"The column '{request.ValueColumn}' is not recognized as numeric.");
         }
 
-        var aggregatedData = ValidationHelper.ProcessDataAggregation(
+        var aggregatedData = HELPERS.ValidationHelper.ProcessDataAggregation(
             records, request.CategoryColumn, request.ValueColumn, request.Aggregation);
 
         var plotModel = new PlotModel
@@ -99,7 +99,7 @@ public class ChartService(
 
         switch (request.ChartType)
         {
-            case ChartType.Line:
+            case CONSTANTS.ChartType.Line:
                 {
                     var lineSeries = new LineSeries();
                     int index = 0;
@@ -115,7 +115,7 @@ public class ChartService(
                     });
                     break;
                 }
-            case ChartType.Bar:
+            case CONSTANTS.ChartType.Bar:
                 {
                     var barSeries = new BarSeries();
                     foreach (var (Category, AggregatedValue) in aggregatedData)
@@ -130,7 +130,7 @@ public class ChartService(
                     });
                     break;
                 }
-            case ChartType.Pie:
+            case CONSTANTS.ChartType.Pie:
                 {
                     var pieSeries = new PieSeries();
                     foreach (var (Category, AggregatedValue) in aggregatedData)

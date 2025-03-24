@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataWise.Data.DbContexts.NonReleational.Models;
+namespace DataWise.Data.DbContexts.NonRelational.Models;
 
 /// <summary>
 /// Represents a subtype of a data structure.

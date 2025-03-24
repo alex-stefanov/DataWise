@@ -1,4 +1,4 @@
-﻿using DataWise.Data.DbContexts.NonReleational.Models;
+﻿using MODELS = DataWise.Data.DbContexts.NonRelational.Models;
 
 namespace DataWise.Core.Services.Interfaces;
 
@@ -12,7 +12,7 @@ public interface IStructureService
     /// </summary>
     /// <param name="id">The unique identifier of the data structure.</param>
     /// <returns>The data structure if found; otherwise, null.</returns>
-    Task<DataStructure?> GetByIdAsync(
+    Task<MODELS.DataStructure?> GetByIdAsync(
         string id);
 
     /// <summary>
@@ -20,6 +20,6 @@ public interface IStructureService
     /// </summary>
     /// <param name="name">The name of the data structure.</param>
     /// <returns>The data structure if found; otherwise, null.</returns>
-    Task<DataStructure?> GetByNameAsync(
+    Task<MODELS.DataStructure?> GetByNameAsync(
         string name);
 }

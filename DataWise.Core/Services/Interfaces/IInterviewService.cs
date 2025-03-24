@@ -1,4 +1,4 @@
-﻿using DataWise.Data.DbContexts.Releational.Models;
+﻿using MODELS = DataWise.Data.DbContexts.Relational.Models;
 
 namespace DataWise.Core.Services.Interfaces;
 
@@ -41,7 +41,7 @@ public interface IInterviewService
     /// Retrieves the entire chat history (messages) for a given session.
     /// </summary>
     /// <param name="sessionId">The ID of the chat session.</param>
-    /// <returns>An enumerable collection of <see cref="ChatMessage"/>.</returns>
-    Task<IEnumerable<ChatMessage>> GetChatHistoryAsync(
+    /// <returns>An enumerable collection of <see cref="MODELS.ChatMessage"/>.</returns>
+    Task<IEnumerable<MODELS.ChatMessage>> GetChatHistoryAsync(
         string sessionId);
 }

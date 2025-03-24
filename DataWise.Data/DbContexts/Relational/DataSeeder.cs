@@ -1,15 +1,15 @@
 ﻿using System.Globalization;
-using DataWise.Data.Repositories.Releational;
-using MODELS = DataWise.Data.DbContexts.Releational.Models;
 using CsvHelper;
+using REPOSITORIES = DataWise.Data.Repositories.Relational;
+using MODELS = DataWise.Data.DbContexts.Relational.Models;
 
-namespace DataWise.Data.DbContexts.Releational;
+namespace DataWise.Data.DbContexts.Relational;
 
 /// <summary>
 /// A simple seeder class that imports questions from a CSV using a repository.
 /// </summary>
 public class DataSeeder(
-    ISQLRepository<MODELS.Question, string> questionRepository)
+    REPOSITORIES.ISQLRepository<MODELS.Question, string> questionRepository)
 {
     /// <summary>
     /// Reads the CSV file and inserts questions if none exist in the repository.

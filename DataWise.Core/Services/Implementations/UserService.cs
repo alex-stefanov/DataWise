@@ -1,8 +1,7 @@
-﻿using System.Security.Claims;
-using DataWise.Common.DTOs;
-using DataWise.Core.Services.Interfaces;
-using DataWise.Data.DbContexts.Releational.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using DTOS = DataWise.Common.DTOs;
+using INTERFACES = DataWise.Core.Services.Interfaces;
+using MODELS = DataWise.Data.DbContexts.Relational.Models;
 
 namespace DataWise.Core.Services.Implementations;
 
@@ -12,15 +11,15 @@ namespace DataWise.Core.Services.Implementations;
 /// <param name="userManager">The user manager instance.</param>
 /// <param name="signInManager">The sign in manager instance.</param>
 public class UserService(
-    UserManager<WiseClient> userManager,
-    SignInManager<WiseClient> signInManager)
-    : IUserService
+    UserManager<MODELS.WiseClient> userManager,
+    SignInManager<MODELS.WiseClient> signInManager)
+    : INTERFACES.IUserService
 {
     /// <inheritdoc />
     public async Task<(bool Succeeded, string UserId, string Message, IEnumerable<string>? Errors)> RegisterAsync(
-        RegisterDto model)
+        DTOS.RegisterDto model)
     {
-        var user = new WiseClient
+        var user = new MODELS.WiseClient
         {
             Id = Guid.NewGuid().ToString(),
             UserName = model.Email,
@@ -53,7 +52,7 @@ public class UserService(
 
     /// <inheritdoc />
     public async Task<(bool Succeeded, string UserId, string Message)> LoginAsync(
-        LoginDto model)
+        DTOS.LoginDto model)
     {
         var result = await signInManager
             .PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -74,7 +73,7 @@ public class UserService(
     }
 
     /// <inheritdoc />
-    public async Task<WiseClient?> GetProfileAsync(
+    public async Task<MODELS.WiseClient?> GetProfileAsync(
         string userId)
     {
         var user = await userManager
@@ -85,7 +84,7 @@ public class UserService(
 
     /// <inheritdoc />
     public async Task<(bool Succeeded, string Message, IEnumerable<string>? Errors)> UpdateProfileAsync(
-        UpdateProfileDto model)
+        DTOS.UpdateProfileDto model)
     {
         var user = await userManager
             .FindByEmailAsync(model.Email);

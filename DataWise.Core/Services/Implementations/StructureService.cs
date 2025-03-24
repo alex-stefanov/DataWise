@@ -1,6 +1,6 @@
-﻿using DataWise.Core.Services.Interfaces;
-using DataWise.Data.DbContexts.NonReleational.Models;
-using DataWise.Data.Repositories.NonReleational;
+﻿using INTERFACES = DataWise.Core.Services.Interfaces;
+using MODELS = DataWise.Data.DbContexts.NonRelational.Models;
+using N_RELATIONAL = DataWise.Data.Repositories.NonRelational;
 
 namespace DataWise.Core.Services.Implementations;
 
@@ -9,18 +9,18 @@ namespace DataWise.Core.Services.Implementations;
 /// </summary>
 /// <param name="repository">The repository instance for data structures.</param>
 public class StructureService(
-    IMongoRepository<DataStructure, string> repository)
-    : IStructureService
+    N_RELATIONAL.IMongoRepository<MODELS.DataStructure, string> repository)
+    : INTERFACES.IStructureService
 {
     /// <inheritdoc />
-    public async Task<DataStructure?> GetByIdAsync(
+    public async Task<MODELS.DataStructure?> GetByIdAsync(
         string id)
         => await repository
-        .GetByIdAsync(id);
+            .GetByIdAsync(id);
 
     /// <inheritdoc />
-    public async Task<DataStructure?> GetByNameAsync(
+    public async Task<MODELS.DataStructure?> GetByNameAsync(
         string name)
         => await repository
-        .FirstOrDefaultAsync(ds => ds.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            .FirstOrDefaultAsync(ds => ds.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 }

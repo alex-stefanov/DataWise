@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataWise.Data.DbContexts.NonReleational.Models;
+namespace DataWise.Data.DbContexts.NonRelational.Models;
 
 /// <summary>
 /// Represents a code block for an algorithm in a specific programming language.

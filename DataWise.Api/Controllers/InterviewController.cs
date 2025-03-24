@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DTOS = DataWise.Common.DTOs;
 using DataWise.Core.Services.Interfaces;
-using DataWise.Data.DbContexts.Releational.Models;
+using DataWise.Data.DbContexts.Relational.Models;
 
 namespace DataWise.Api.Controllers;
 

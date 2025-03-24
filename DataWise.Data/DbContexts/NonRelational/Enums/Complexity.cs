@@ -1,4 +1,4 @@
-﻿namespace DataWise.Data.DbContexts.NonReleational.Enums;
+﻿namespace DataWise.Data.DbContexts.NonRelational.Enums;
 
 /// <summary>
 /// Represents the different types of time and space complexities commonly encountered in algorithms.

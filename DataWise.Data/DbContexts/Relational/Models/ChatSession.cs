@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataWise.Data.DbContexts.Releational.Models;
+namespace DataWise.Data.DbContexts.Relational.Models;
 
 /// <summary>
 /// Represents a single Q&A session for one question.

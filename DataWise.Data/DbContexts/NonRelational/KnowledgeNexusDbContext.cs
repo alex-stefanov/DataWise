@@ -1,9 +1,10 @@
 ﻿using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using OPTIONS = DataWise.Common.Options;
-using NR_MODELS = DataWise.Data.DbContexts.NonReleational.Models;
+using CONSTANTS = DataWise.Common.Constants;
+using MODELS = DataWise.Data.DbContexts.NonRelational.Models;
 
-namespace DataWise.Data.DbContexts.NonReleational;
+namespace DataWise.Data.DbContexts.NonRelational;
 
 /// <summary>
 /// Represents the context for the Knowledge Nexus MongoDB database.
@@ -28,13 +29,13 @@ public class KnowledgeNexusDbContext
     /// Gets the collection of data structures from the MongoDB database.
     /// </summary>
     /// <value>The MongoDB collection containing the data structures.</value>
-    public IMongoCollection<NR_MODELS.DataStructure> DataStructures =>
-        _database.GetCollection<NR_MODELS.DataStructure>("DataStructures");
+    public IMongoCollection<MODELS.DataStructure> DataStructures =>
+        _database.GetCollection<MODELS.DataStructure>(CONSTANTS.GeneralConstants.DataStructureCollectionName);
 
     /// <summary>
     /// Gets the collection of algorithms from the MongoDB database.
     /// </summary>
     /// <value>The MongoDB collection containing the algorithms.</value>
-    public IMongoCollection<NR_MODELS.Algorithm> Algorithms =>
-        _database.GetCollection<NR_MODELS.Algorithm>("Algorithms");
+    public IMongoCollection<MODELS.Algorithm> Algorithms =>
+        _database.GetCollection<MODELS.Algorithm>(CONSTANTS.GeneralConstants.AlgorithmCollectionName);
 }

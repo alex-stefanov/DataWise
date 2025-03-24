@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using NR_ENUMS = DataWise.Data.DbContexts.NonReleational.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using NR_ENUMS = DataWise.Data.DbContexts.NonRelational.Enums;
 
-namespace DataWise.Data.DbContexts.NonReleational.Models;
+namespace DataWise.Data.DbContexts.NonRelational.Models;
 
 /// <summary>
 /// Represents a data structure used in algorithms.

@@ -1,9 +1,10 @@
-﻿using DataWise.Common.DTOs;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using DTOS = DataWise.Common.DTOs;
 using INTERAFCES = DataWise.Core.Services.Interfaces;
 
 namespace DataWise.Api.Controllers;
+
+//TODO: Better exception handling
 
 /// <summary>
 /// Controller responsible for user authentication and profile management.
@@ -87,7 +88,7 @@ public class UserController (
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Profile(
         [FromBody]
-        FetchProfileDto request)
+        DTOS.FetchProfileDto request)
     {
         var user = await userService
             .GetProfileAsync(request.UserId);

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace DataWise.Data.DbContexts.Releational.Models;
+namespace DataWise.Data.DbContexts.Relational.Models;
 
 /// <summary>
 /// Represents a user in the application, extending the <see cref="IdentityUser"/> class

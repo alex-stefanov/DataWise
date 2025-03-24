@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using MODELS = DataWise.Data.DbContexts.Releational.Models;
+using MODELS = DataWise.Data.DbContexts.Relational.Models;
 
-namespace DataWise.Data.DbContexts.Releational;
+namespace DataWise.Data.DbContexts.Relational;
 
 /// <summary>
 /// Represents the application's database context for both user management (Identity)

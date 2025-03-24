@@ -1,8 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using NR_ENUMS = DataWise.Data.DbContexts.NonReleational.Enums;
+using NR_ENUMS = DataWise.Data.DbContexts.NonRelational.Enums;
 
-namespace DataWise.Data.DbContexts.NonReleational.Models;
+namespace DataWise.Data.DbContexts.NonRelational.Models;
 
 /// <summary>
 /// Represents an algorithm in the Knowledge Nexus database.

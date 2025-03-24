@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DataWise.Data.DbContexts.Releational;
-using SharpCompress.Common;
-using System;
+using N_RELATIONAL = DataWise.Data.DbContexts.NonRelational;
+using RELATIONAL = DataWise.Data.DbContexts.Relational;
 
 namespace DataWise.Api.Extensions;
 
@@ -21,7 +20,7 @@ public static class WebApplicationExtensions
 
         try
         {
-            var context = services.GetRequiredService<InterviewDbContext>();
+            var context = services.GetRequiredService<RELATIONAL.InterviewDbContext>();
             await context.Database.MigrateAsync();
         }
         catch (Exception ex)
@@ -31,11 +30,11 @@ public static class WebApplicationExtensions
         }
 
         using var seedScope = app.Services.CreateScope();
-        var seeder = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.NonReleational.DataSeeder>();
+        var mongoSeeder = seedScope.ServiceProvider.GetRequiredService<N_RELATIONAL.DataSeeder>();
 
-        await seeder.SeedAllAsync();
+        await mongoSeeder.SeedAllAsync();
 
-        var seeder1 = seedScope.ServiceProvider.GetRequiredService<Data.DbContexts.Releational.DataSeeder>();
+        var sqlSeeder = seedScope.ServiceProvider.GetRequiredService<RELATIONAL.DataSeeder>();
 
         string filePath;
 
@@ -44,13 +43,13 @@ public static class WebApplicationExtensions
             string projectRoot = Directory.GetParent(AppContext.BaseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName
                 ?? throw new Exception("Project root not found");
 
-            filePath = Path.Combine(projectRoot, "DataWise.Data", "DbContexts", "Releational", "Data", "interview_questions.csv");
+            filePath = Path.Combine(projectRoot, "DataWise.Data", "DbContexts", "Relational", "Data", "interview_questions.csv");
         }
         else
         {
             filePath = Path.Combine("/app/data/interview_questions.csv");
         }
 
-        await seeder1.SeedQuestionsAsync(filePath);
+        await sqlSeeder.SeedQuestionsAsync(filePath);
     }
 }

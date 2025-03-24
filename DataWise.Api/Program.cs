@@ -1,6 +1,5 @@
 using DotNetEnv;
 using DataWise.Api.Extensions;
-using CONSTANTS = DataWise.Common.Constants;
 
 namespace DataWise.Api;
 
@@ -18,22 +17,27 @@ public class Program
             .AddCustomSwagger()
             .AddControllers();
 
-        builder.AddUserServices();
-
         builder.Services
-            .AddCustomConfiguration(
+            .AddConfigurations(
                 builder.Configuration)
             .AddMongoServices()
-            .AddDataSeeder();
+            .AddSQLServices()
+            .AddDataSeeders();
+
+        builder
+            .AddOpenAI()
+            .AddIdentityAndRoles()
+            .AddUserServices();
 
         var app = builder.Build();
 
-        await app.ApplyMigrationsAndSeedAsync();
+        await app
+            .ApplyMigrationsAndSeedAsync();
 
         app
             .UseCustomSwagger()
-            .UseCustomExceptionHandler()
-            .UseCustomHttpsRedirection()
+            .UseExceptionHandler("/error")
+            .UseHttpsRedirection()
             .UseCustomCors();
 
         app.UseAuthorization();

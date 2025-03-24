@@ -1,6 +1,6 @@
-﻿using DataWise.Core.Services.Interfaces;
-using DataWise.Data.DbContexts.NonReleational.Models;
-using DataWise.Data.Repositories.NonReleational;
+﻿using INTERFACES = DataWise.Core.Services.Interfaces;
+using MODELS = DataWise.Data.DbContexts.NonRelational.Models;
+using N_RELATIONAL = DataWise.Data.Repositories.NonRelational;
 
 namespace DataWise.Core.Services.Implementations;
 
@@ -9,17 +9,17 @@ namespace DataWise.Core.Services.Implementations;
 /// </summary>
 /// <param name="repository">The repository instance to access algorithm data.</param>
 public class AlgorithmService(
-    IMongoRepository<Algorithm, string> repository)
-    : IAlgorithmService
+    N_RELATIONAL.IMongoRepository<MODELS.Algorithm, string> repository)
+    : INTERFACES.IAlgorithmService
 {
     /// <inheritdoc />
-    public async Task<Algorithm?> GetAlgorithmByIdAsync(
+    public async Task<MODELS.Algorithm?> GetAlgorithmByIdAsync(
         string id)
         => await repository
             .GetByIdAsync(id);
 
     /// <inheritdoc />
-    public async Task<Algorithm?> GetAlgorithmByNameAsync(
+    public async Task<MODELS.Algorithm?> GetAlgorithmByNameAsync(
         string name)
         => await repository
             .FirstOrDefaultAsync(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));

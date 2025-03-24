@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ENUMS = DataWise.Data.DbContexts.Releational.Enums;
+using ENUMS = DataWise.Data.DbContexts.Relational.Enums;
 
-namespace DataWise.Data.DbContexts.Releational.Models;
+namespace DataWise.Data.DbContexts.Relational.Models;
 
 /// <summary>
 /// Represents a single message in the conversation (question, user’s answer, hint, feedback, etc.).

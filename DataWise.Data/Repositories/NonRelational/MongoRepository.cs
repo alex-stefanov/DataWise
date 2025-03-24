@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using MongoDB.Driver;
 
-namespace DataWise.Data.Repositories.NonReleational;
+namespace DataWise.Data.Repositories.NonRelational;
 
 /// <summary>
 /// Provides MongoDB-specific implementation of the <see cref="IMongoRepository{TType, TId}"/> interface.

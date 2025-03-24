@@ -1,4 +1,4 @@
-﻿namespace DataWise.Data.DbContexts.Releational.Enums;
+﻿namespace DataWise.Data.DbContexts.Relational.Enums;
 
 /// <summary>
 /// Specifies who sent a particular chat message.

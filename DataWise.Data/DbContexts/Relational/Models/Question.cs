@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataWise.Data.DbContexts.Releational.Models;
+namespace DataWise.Data.DbContexts.Relational.Models;
 
 /// <summary>
 /// Represents a question imported from the CSV (category, difficulty, etc.).

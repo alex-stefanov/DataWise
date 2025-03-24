@@ -1,6 +1,5 @@
-﻿using System.Security.Claims;
-using DataWise.Common.DTOs;
-using DataWise.Data.DbContexts.Releational.Models;
+﻿using DTOS = DataWise.Common.DTOs;
+using MODELS = DataWise.Data.DbContexts.Relational.Models;
 
 namespace DataWise.Core.Services.Interfaces;
 
@@ -17,7 +16,7 @@ public interface IUserService
     /// A tuple containing a flag indicating success, a message, and any error messages if present.
     /// </returns>
     Task<(bool Succeeded, string UserId, string Message, IEnumerable<string>? Errors)> RegisterAsync(
-        RegisterDto model);
+        DTOS.RegisterDto model);
 
     /// <summary>
     /// Logs in a user.
@@ -27,7 +26,7 @@ public interface IUserService
     /// A tuple containing a flag indicating success and a message.
     /// </returns>
     Task<(bool Succeeded, string UserId, string Message)> LoginAsync(
-        LoginDto model);
+       DTOS.LoginDto model);
 
     /// <summary>
     /// Logs out the current user.
@@ -39,7 +38,7 @@ public interface IUserService
     /// </summary>
     /// <param name="userId">The current user's id.</param>
     /// <returns>The user if found; otherwise, null.</returns>
-    Task<WiseClient?> GetProfileAsync(
+    Task<MODELS.WiseClient?> GetProfileAsync(
         string userId);
 
     /// <summary>
@@ -50,5 +49,5 @@ public interface IUserService
     /// A tuple containing a flag indicating success, a message, and any error messages if present.
     /// </returns>
     Task<(bool Succeeded, string Message, IEnumerable<string>? Errors)> UpdateProfileAsync(
-        UpdateProfileDto model);
+        DTOS.UpdateProfileDto model);
 }

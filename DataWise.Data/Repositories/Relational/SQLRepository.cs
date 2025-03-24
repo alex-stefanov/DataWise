@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
-using DataWise.Data.DbContexts.Releational;
 using Microsoft.EntityFrameworkCore;
+using RELATIONAL = DataWise.Data.DbContexts.Relational;
 
-namespace DataWise.Data.Repositories.Releational;
+namespace DataWise.Data.Repositories.Relational;
 
 /// <summary>
 /// Provides the implementation of the repository pattern for performing CRUD operations on a SQL-based data source using Entity Framework.
@@ -11,7 +11,7 @@ namespace DataWise.Data.Repositories.Releational;
 /// <typeparam name="TId">The type of the identifier for the entity.</typeparam>
 /// <param name="dbContext">The database context to be used for CRUD operations.</param>
 public class SQLRepository<TType, TId>(
-    InterviewDbContext dbContext)
+    RELATIONAL.InterviewDbContext dbContext)
     : ISQLRepository<TType, TId>
     where TType : class
 {

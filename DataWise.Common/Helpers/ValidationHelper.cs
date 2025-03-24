@@ -87,15 +87,6 @@ public static class ValidationHelper
             openAIAPI);
     }
 
-    /// <summary>
-    /// Uses OpenAI to validate if the column (based on its name and a sample value)
-    /// should be treated as numeric.
-    /// A system message is added to enforce that the response is strictly "Yes" or "No".
-    /// </summary>
-    /// <param name="columnName">The name of the column.</param>
-    /// <param name="sampleValue">A sample value from the column.</param>
-    /// <param name="openAIAPI">An instance of the OpenAI API client.</param>
-    /// <returns>True if OpenAI indicates the column is numeric; otherwise false.</returns>
     private static async Task<bool> ValidateNumericColumnAsync(
          string columnName,
          string sampleValue,
@@ -116,14 +107,6 @@ public static class ValidationHelper
         return response.Trim().StartsWith("yes", StringComparison.CurrentCultureIgnoreCase);
     }
 
-    /// <summary>
-    /// Attempts to parse a generic numeric value from a string.
-    /// This method extracts the first numeric pattern it finds, handling cases
-    /// like '$ 743', 'BGN 88', or '23MB'.
-    /// </summary>
-    /// <param name="value">The string value to parse.</param>
-    /// <param name="result">The parsed numeric value if successful.</param>
-    /// <returns>True if a numeric value could be extracted and parsed; otherwise false.</returns>
     private static bool TryParseGenericNumericValue(
         string value,
         out double result)

@@ -1,4 +1,4 @@
-﻿using DataWise.Data.DbContexts.NonReleational.Models;
+﻿using MODELS = DataWise.Data.DbContexts.NonRelational.Models;
 
 namespace DataWise.Core.Services.Interfaces;
 
@@ -12,7 +12,7 @@ public interface IAlgorithmService
     /// </summary>
     /// <param name="id">The unique identifier of the algorithm.</param>
     /// <returns>The algorithm if found; otherwise, null.</returns>
-    Task<Algorithm?> GetAlgorithmByIdAsync(
+    Task<MODELS.Algorithm?> GetAlgorithmByIdAsync(
         string id);
 
     /// <summary>
@@ -20,6 +20,6 @@ public interface IAlgorithmService
     /// </summary>
     /// <param name="name">The name of the algorithm.</param>
     /// <returns>The algorithm if found; otherwise, null.</returns>
-    Task<Algorithm?> GetAlgorithmByNameAsync(
+    Task<MODELS.Algorithm?> GetAlgorithmByNameAsync(
         string name);
 }

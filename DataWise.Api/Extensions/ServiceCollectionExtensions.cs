@@ -1,18 +1,17 @@
 ﻿using MongoDB.Driver;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OPTIONS = DataWise.Common.Options;
 using CONSTANTS = DataWise.Common.Constants;
-using RELEATIONAL = DataWise.Data.DbContexts.Releational;
-using N_RELEATIONAL = DataWise.Data.DbContexts.NonReleational;
-using R_MODELS = DataWise.Data.DbContexts.Releational.Models;
-using NR_MODELS = DataWise.Data.DbContexts.NonReleational.Models;
-using R_REPOSITORIES = DataWise.Data.Repositories.Releational;
-using NR_REPOSITORIES = DataWise.Data.Repositories.NonReleational;
+using RELATIONAL = DataWise.Data.DbContexts.Relational;
+using N_RELATIONAL = DataWise.Data.DbContexts.NonRelational;
+using R_MODELS = DataWise.Data.DbContexts.Relational.Models;
+using NR_MODELS = DataWise.Data.DbContexts.NonRelational.Models;
+using R_REPOSITORIES = DataWise.Data.Repositories.Relational;
+using NR_REPOSITORIES = DataWise.Data.Repositories.NonRelational;
 
 namespace DataWise.Api.Extensions;
-
-//TODO: Better services organisation
 
 /// <summary>
 /// Provides extension methods to register application services.
@@ -22,7 +21,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Registers configuration settings from the configuration files.
     /// </summary>
-    public static IServiceCollection AddCustomConfiguration(
+    public static IServiceCollection AddConfigurations(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -48,7 +47,7 @@ public static class ServiceCollectionExtensions
             return client.GetDatabase(settings.DatabaseName);
         });
 
-        services.AddSingleton<N_RELEATIONAL.KnowledgeNexusDbContext>();
+        services.AddSingleton<N_RELATIONAL.KnowledgeNexusDbContext>();
 
         services.AddScoped<NR_REPOSITORIES.IMongoRepository<NR_MODELS.DataStructure, string>>(sp =>
         {
@@ -66,14 +65,29 @@ public static class ServiceCollectionExtensions
                 database, CONSTANTS.GeneralConstants.AlgorithmCollectionName);
         });
 
+        return services;
+    }
+
+    /// <summary>
+    /// Registers SQL-related services including the database, context, and repositories.
+    /// </summary>
+    public static IServiceCollection AddSQLServices(
+        this IServiceCollection services)
+    {
         services.AddScoped<R_REPOSITORIES.ISQLRepository<R_MODELS.Question, string>,
-            R_REPOSITORIES.SQLRepository<R_MODELS.Question, string>>();
+                    R_REPOSITORIES.SQLRepository<R_MODELS.Question, string>>();
 
         services.AddScoped<R_REPOSITORIES.ISQLRepository<R_MODELS.ChatSession, string>,
             R_REPOSITORIES.SQLRepository<R_MODELS.ChatSession, string>>();
 
         services.AddScoped<R_REPOSITORIES.ISQLRepository<R_MODELS.ChatMessage, string>,
             R_REPOSITORIES.SQLRepository<R_MODELS.ChatMessage, string>>();
+
+        services.AddDbContext<RELATIONAL.InterviewDbContext>((sp, options) =>
+        {
+            var settings = sp.GetRequiredService<IOptions<OPTIONS.UserDbSettings>>().Value;
+            options.UseSqlServer(settings.ConnectionString);
+        });
 
         return services;
     }
@@ -96,14 +110,14 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers the application data seeder.
+    /// Registers the application data seeders.
     /// </summary>
-    public static IServiceCollection AddDataSeeder(
+    public static IServiceCollection AddDataSeeders(
         this IServiceCollection services)
     {
-        services.AddTransient<N_RELEATIONAL.DataSeeder>();
+        services.AddTransient<N_RELATIONAL.DataSeeder>();
 
-        services.AddTransient<RELEATIONAL.DataSeeder>();
+        services.AddTransient<RELATIONAL.DataSeeder>();
 
         return services;
     }

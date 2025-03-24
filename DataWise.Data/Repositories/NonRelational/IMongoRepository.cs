@@ -1,62 +1,63 @@
 ﻿using System.Linq.Expressions;
 
-namespace DataWise.Data.Repositories.Releational;
+namespace DataWise.Data.Repositories.NonRelational;
 
 /// <summary>
-/// Represents a repository interface for performing CRUD operations on a SQL-based data source.
+/// Defines the methods for interacting with a MongoDB-based repository.
+/// Provides CRUD operations for documents stored in a MongoDB collection.
 /// </summary>
 /// <typeparam name="TType">The type of the entity being managed by the repository.</typeparam>
 /// <typeparam name="TId">The type of the identifier for the entity.</typeparam>
-public interface ISQLRepository<TType, TId>
+public interface IMongoRepository<TType, TId>
 {
     /// <summary>
-    /// Retrieves an entity by its identifier.
+    /// Gets an entity by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the entity.</param>
-    /// <returns>The entity if found; otherwise, null.</returns>
+    /// <returns>The entity with the specified identifier, or <c>null</c> if not found.</returns>
     TType? GetById(
         TId id);
 
     /// <summary>
-    /// Asynchronously retrieves an entity by its identifier.
+    /// Asynchronously gets an entity by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the entity.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the entity if found; otherwise, null.</returns>
+    /// <returns>A task representing the asynchronous operation, with the entity with the specified identifier, or <c>null</c> if not found.</returns>
     Task<TType?> GetByIdAsync(
         TId id);
 
     /// <summary>
-    /// Retrieves the first entity that matches the given predicate.
+    /// Gets the first entity that matches the provided predicate.
     /// </summary>
-    /// <param name="predicate">The predicate to filter the entity.</param>
-    /// <returns>The first entity that matches the predicate, or null if no match is found.</returns>
+    /// <param name="predicate">A function to test each entity.</param>
+    /// <returns>The first matching entity, or <c>null</c> if no match is found.</returns>
     TType? FirstOrDefault(
         Func<TType, bool> predicate);
 
     /// <summary>
-    /// Asynchronously retrieves the first entity that matches the given predicate.
+    /// Asynchronously gets the first entity that matches the provided predicate.
     /// </summary>
-    /// <param name="predicate">The predicate to filter the entity.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the first entity that matches the predicate, or null if no match is found.</returns>
+    /// <param name="predicate">A function to test each entity.</param>
+    /// <returns>A task representing the asynchronous operation, with the first matching entity, or <c>null</c> if no match is found.</returns>
     Task<TType?> FirstOrDefaultAsync(
         Expression<Func<TType, bool>> predicate);
 
     /// <summary>
-    /// Retrieves all entities.
+    /// Gets all entities in the repository.
     /// </summary>
-    /// <returns>An enumerable collection of all entities.</returns>
+    /// <returns>A collection of all entities in the repository.</returns>
     IEnumerable<TType> GetAll();
 
     /// <summary>
-    /// Asynchronously retrieves all entities.
+    /// Asynchronously gets all entities in the repository.
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of all entities.</returns>
+    /// <returns>A task representing the asynchronous operation, with a collection of all entities in the repository.</returns>
     Task<IEnumerable<TType>> GetAllAsync();
 
     /// <summary>
-    /// Retrieves all entities with the associated data (e.g., related entities) attached.
+    /// Gets all entities attached to the repository.
     /// </summary>
-    /// <returns>An IQueryable of all entities with attached data.</returns>
+    /// <returns>An IQueryable that can be used to query the entities.</returns>
     IQueryable<TType> GetAllAttached();
 
     /// <summary>
@@ -70,22 +71,22 @@ public interface ISQLRepository<TType, TId>
     /// Asynchronously adds a new entity to the repository.
     /// </summary>
     /// <param name="item">The entity to add.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <returns>A task representing the asynchronous operation.</returns>
     Task AddAsync(
         TType item);
 
     /// <summary>
-    /// Adds a range of entities to the repository.
+    /// Adds multiple entities to the repository.
     /// </summary>
     /// <param name="items">The entities to add.</param>
     void AddRange(
         TType[] items);
 
     /// <summary>
-    /// Asynchronously adds a range of entities to the repository.
+    /// Asynchronously adds multiple entities to the repository.
     /// </summary>
     /// <param name="items">The entities to add.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <returns>A task representing the asynchronous operation.</returns>
     Task AddRangeAsync(
         TType[] items);
 
@@ -93,7 +94,7 @@ public interface ISQLRepository<TType, TId>
     /// Deletes an entity from the repository.
     /// </summary>
     /// <param name="entity">The entity to delete.</param>
-    /// <returns>True if the entity was successfully deleted; otherwise, false.</returns>
+    /// <returns><c>true</c> if the entity was successfully deleted, otherwise <c>false</c>.</returns>
     bool Delete(
         TType entity);
 
@@ -101,7 +102,7 @@ public interface ISQLRepository<TType, TId>
     /// Asynchronously deletes an entity from the repository.
     /// </summary>
     /// <param name="entity">The entity to delete.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains true if the entity was successfully deleted; otherwise, false.</returns>
+    /// <returns>A task representing the asynchronous operation, with a result indicating success or failure.</returns>
     Task<bool> DeleteAsync(
         TType entity);
 
@@ -109,7 +110,7 @@ public interface ISQLRepository<TType, TId>
     /// Updates an existing entity in the repository.
     /// </summary>
     /// <param name="item">The entity to update.</param>
-    /// <returns>True if the entity was successfully updated; otherwise, false.</returns>
+    /// <returns><c>true</c> if the entity was successfully updated, otherwise <c>false</c>.</returns>
     bool Update(
         TType item);
 
@@ -117,7 +118,7 @@ public interface ISQLRepository<TType, TId>
     /// Asynchronously updates an existing entity in the repository.
     /// </summary>
     /// <param name="item">The entity to update.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains true if the entity was successfully updated; otherwise, false.</returns>
+    /// <returns>A task representing the asynchronous operation, with a result indicating success or failure.</returns>
     Task<bool> UpdateAsync(
         TType item);
 }

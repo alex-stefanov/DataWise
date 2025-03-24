@@ -1,9 +1,9 @@
 ﻿using MongoDB.Driver;
-using DataWise.Data.DbContexts.NonReleational.Enums;
-using DataWise.Data.DbContexts.NonReleational.Models;
-using NR_REPOSITORIES = DataWise.Data.Repositories.NonReleational;
+using DataWise.Data.DbContexts.NonRelational.Enums;
+using DataWise.Data.DbContexts.NonRelational.Models;
+using REPOSITORIES = DataWise.Data.Repositories.NonRelational;
 
-namespace DataWise.Data.DbContexts.NonReleational;
+namespace DataWise.Data.DbContexts.NonRelational;
 
 /// <summary>
 /// Responsible for seeding initial data for data structures and algorithms.
@@ -14,10 +14,9 @@ namespace DataWise.Data.DbContexts.NonReleational;
 /// <param name="dsRepository">The repository for data structures.</param>
 /// <param name="aRepository">The repository for algorithms.</param>
 public class DataSeeder(
-    NR_REPOSITORIES.IMongoRepository<DataStructure, string> dsRepository,
-    NR_REPOSITORIES.IMongoRepository<Algorithm, string> aRepository)
+    REPOSITORIES.IMongoRepository<DataStructure, string> dsRepository,
+    REPOSITORIES.IMongoRepository<Algorithm, string> aRepository)
 {
-
     /// <summary>
     /// Seeds all necessary data for data structures and algorithms.
     /// </summary>

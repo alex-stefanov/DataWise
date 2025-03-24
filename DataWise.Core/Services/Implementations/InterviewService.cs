@@ -1,10 +1,10 @@
-﻿using DataWise.Core.Services.Interfaces;
-using DataWise.Data.DbContexts.Releational.Enums;
-using DataWise.Data.DbContexts.Releational.Models;
-using DataWise.Data.Repositories.Releational;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenAI_API;
+using INTERFACES = DataWise.Core.Services.Interfaces;
+using ENUMS = DataWise.Data.DbContexts.Relational.Enums;
+using MODELS = DataWise.Data.DbContexts.Relational.Models;
+using RELATIONAL = DataWise.Data.Repositories.Relational;
 
 namespace DataWise.Core.Services.Implementations;
 
@@ -12,12 +12,12 @@ namespace DataWise.Core.Services.Implementations;
 /// Concrete implementation of the IInterviewService for managing chat sessions, answers, and hints.
 /// </summary>
 public class InterviewService(
-    ISQLRepository<ChatSession, string> sessionRepository,
-    ISQLRepository<ChatMessage, string> messageRepository,
-    ISQLRepository<Question, string> questionRepository,
-    UserManager<WiseClient> userManager,
+    RELATIONAL.ISQLRepository<MODELS.ChatSession, string> sessionRepository,
+    RELATIONAL.ISQLRepository<MODELS.ChatMessage, string> messageRepository,
+    RELATIONAL.ISQLRepository<MODELS.Question, string> questionRepository,
+    UserManager<MODELS.WiseClient> userManager,
     OpenAIAPI openAIAPI)
-    : IInterviewService
+    : INTERFACES.IInterviewService
 {
     /// <inheritdoc />
     public async Task<string> StartChatAsync(
@@ -38,7 +38,7 @@ public class InterviewService(
         var index = random.Next(filtered.Count);
         var chosenQuestion = filtered[index];
 
-        var session = new ChatSession
+        var session = new MODELS.ChatSession
         {
             UserId = userId,
             Category = category,
@@ -50,10 +50,10 @@ public class InterviewService(
         await sessionRepository
             .AddAsync(session);
 
-        var message = new ChatMessage
+        var message = new MODELS.ChatMessage
         {
             ChatSessionId = session.Id,
-            Sender = MessageSender.System,
+            Sender = ENUMS.MessageSender.System,
             Content = chosenQuestion.QuestionText,
             CreatedAt = DateTime.UtcNow
         };
@@ -72,10 +72,10 @@ public class InterviewService(
         var session = await sessionRepository.GetByIdAsync(sessionId)
             ?? throw new InvalidOperationException("Session not found.");
 
-        var userMsg = new ChatMessage
+        var userMsg = new MODELS.ChatMessage
         {
             ChatSessionId = session.Id,
-            Sender = MessageSender.User,
+            Sender = ENUMS.MessageSender.User,
             Content = userAnswer,
             CreatedAt = DateTime.UtcNow,
         };
@@ -129,16 +129,16 @@ public class InterviewService(
 
         var (rating, feedback) = ParseEvaluation(evaluationRaw);
 
-        ChatMessage systemMsg;
+        MODELS.ChatMessage systemMsg;
 
         session.AttemptCount++;
 
         if (rating >= 10)
         {
-            systemMsg = new ChatMessage
+            systemMsg = new MODELS.ChatMessage
             {
                 ChatSessionId = session.Id,
-                Sender = MessageSender.System,
+                Sender = ENUMS.MessageSender.System,
                 Content = $"Congrats! {feedback}",
                 CreatedAt = DateTime.UtcNow
             };
@@ -153,10 +153,10 @@ public class InterviewService(
         }
         else
         {
-            systemMsg = new ChatMessage
+            systemMsg = new MODELS.ChatMessage
             {
                 ChatSessionId = session.Id,
-                Sender = MessageSender.System,
+                Sender = ENUMS.MessageSender.System,
                 Content = feedback,
                 CreatedAt = DateTime.UtcNow
             };
@@ -179,11 +179,11 @@ public class InterviewService(
             ?? throw new InvalidOperationException("Question not found.");
 
         var lastUserMessage = await messageRepository.GetAllAttached()
-            .Where(m => m.ChatSessionId == sessionId && m.Sender == MessageSender.User)
+            .Where(m => m.ChatSessionId == sessionId && m.Sender == ENUMS.MessageSender.User)
             .OrderByDescending(m => m.CreatedAt)
             .FirstOrDefaultAsync();
 
-        var userAttempt = lastUserMessage?.Content 
+        var userAttempt = lastUserMessage?.Content
             ?? "No prior user input available.";
 
         var conversation = openAIAPI.Chat.CreateConversation();
@@ -203,10 +203,10 @@ public class InterviewService(
 
         var hintResponse = await conversation.GetResponseFromChatbotAsync();
 
-        var hintMsg = new ChatMessage
+        var hintMsg = new MODELS.ChatMessage
         {
             ChatSessionId = session.Id,
-            Sender = MessageSender.System,
+            Sender = ENUMS.MessageSender.System,
             Content = $"(Hint) {hintResponse}",
             CreatedAt = DateTime.UtcNow,
         };
@@ -219,7 +219,7 @@ public class InterviewService(
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<ChatMessage>> GetChatHistoryAsync(
+    public async Task<IEnumerable<MODELS.ChatMessage>> GetChatHistoryAsync(
         string sessionId)
     {
         var all = await messageRepository.GetAllAttached()
@@ -254,7 +254,7 @@ public class InterviewService(
     }
 
     private static int CalculateScore(
-        ChatSession session,
+        MODELS.ChatSession session,
         int rating)
     {
         int difficultyValue = session.Difficulty switch

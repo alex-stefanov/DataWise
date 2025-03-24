@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace DataWise.Data.DbContexts.NonReleational.Models;
+namespace DataWise.Data.DbContexts.NonRelational.Models;
 
 /// <summary>
 /// Represents the category of an algorithm in the Knowledge Nexus database.
