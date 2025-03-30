@@ -18,7 +18,7 @@ COPY ./DataWise.Core/* ./DataWise.Core/
 COPY ./DataWise.Data/* ./DataWise.Data/
 COPY ./DataWise.Tests/* ./DataWise.Tests/
 
-COPY ./DataWise.Data/DbContexts/Releational/Data/interview_questions.csv /app/data/interview_questions.csv
+COPY ./DataWise.Data/DbContexts/Relational/Data/interview_questions.csv /app/data/interview_questions.csv
 
 RUN dotnet publish -c release -o /app --no-restore
 
