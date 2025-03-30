@@ -52,7 +52,7 @@ export class InterviewHelperComponent implements OnInit {
   public isLoggedIn = false;
   public user: StoredUser | null = null;
 
-  private baseUrl = 'https://localhost:7085/api/interview';
+  private baseUrl = `${environment.apiUrl}/api/interview`;
 
   constructor(private http: HttpClient) {}
 
