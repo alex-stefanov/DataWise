@@ -150,6 +150,8 @@ public class InterviewService(
                 ?? throw new ArgumentNullException("User not found");
 
             user.Points += CalculateScore(session, rating);
+
+            await userManager.UpdateAsync(user);
         }
         else
         {
