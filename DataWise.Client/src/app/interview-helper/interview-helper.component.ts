@@ -149,7 +149,7 @@ export class InterviewHelperComponent implements OnInit {
     this.http.post<any>(url, payload).subscribe(
       data => {
         this.user = {
-          id: data.email,
+          id: data.id,
           firstName: data.firstName,
           lastName: data.lastName,
         };
